@@ -137,34 +137,59 @@ const lessons = {
 "Chinese":"Chinese includes several language varieties; Mandarin is widely used."
 };
 
-function renderSubjects(){
-const list=document.getElementById("subjectList");
-list.innerHTML="";
-const search=document.getElementById("search").value.toLowerCase();
-Object.entries(groups).forEach(([group,subjects])=>{
-const matches=Object.entries(subjects).filter(([emoji,name])=>name.toLowerCase().includes(search)||group.toLowerCase().includes(search));
-if(!matches.length)return;
-const title=document.createElement("h3");
-title.className="group-title";
-title.textContent=group;
-list.appendChild(title);
-const grid=document.createElement("div");
-grid.className="subjects";
-matches.forEach(([emoji,name])=>{
-const button=document.createElement("button");
-button.className="subject";
-const icon=document.createElement("span");
-icon.textContent=emoji;
-button.appendChild(icon);
-button.appendChild(document.createTextNode(name));
-button.onclick=()=>openSubject(name);
-grid.appendChild(button);
-});
-list.appendChild(grid);
-});
-if(!list.children.length)list.textContent="No matching subjects found.";
+
+function renderSubjects() {
+  const list = document.getElementById("subjectList");
+  const searchBox = document.getElementById("search");
+
+  if (!list || !searchBox) return;
+
+  list.innerHTML = "";
+  const search = searchBox.value.toLowerCase();
+
+  Object.entries(groups).forEach(([group, subjects]) => {
+    const matches = Object.entries(subjects).filter(
+      ([emoji, name]) =>
+        name.toLowerCase().includes(search) ||
+        group.toLowerCase().includes(search)
+    );
+
+    if (matches.length === 0) return;
+
+    const title = document.createElement("h3");
+    title.className = "group-title";
+    title.textContent = group;
+    list.appendChild(title);
+
+    const grid = document.createElement("div");
+    grid.className = "subjects";
+
+    matches.forEach(([emoji, name]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "subject";
+
+      const icon = document.createElement("span");
+      icon.textContent = emoji;
+      button.appendChild(icon);
+      button.appendChild(document.createTextNode(name));
+
+      button.onclick = () => openSubject(name);
+      grid.appendChild(button);
+    });
+
+    list.appendChild(grid);
+  });
+
+  if (!list.children.length) {
+    list.textContent = "No matching subjects found.";
+  }
 }
-function filterSubjects(){renderSubjects()}
+
+function filterSubjects() {
+  renderSubjects();
+}
+
 
 function openSubject(name) {
   const panel = document.getElementById("lesson");
