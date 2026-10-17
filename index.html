@@ -205,7 +205,7 @@ function openSubject(name) {
   panel.appendChild(heading);
 
   
-if (!topics || topics.length === 0) {
+if (!Array.isArray(topics) || topics.length === 0) {
   const message = document.createElement("p");
   message.textContent = lessons[name] ||
     "Revision notes for " + name +
