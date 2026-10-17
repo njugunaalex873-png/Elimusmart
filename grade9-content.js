@@ -129,3 +129,4 @@ const grade9Content = {
 if (typeof module !== "undefined") {
   module.exports = grade9Content;
 }
+window.grade9Content = grade9Content;
