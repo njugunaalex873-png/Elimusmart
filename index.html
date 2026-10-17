@@ -276,20 +276,7 @@ function openSubject(name) {
 
   panel.scrollIntoView({ behavior: "smooth", block: "start" });
 }
-  
-const lesson=lessons[name]||name+" revision materials will be added soon. Check your current curriculum and teacher's guidance for the topics you need.";
-const panel=document.getElementById("lesson");
-panel.innerHTML="";
-const title=document.createElement("h3");
-title.textContent="📘 "+name;
-const text=document.createElement("p");
-text.textContent=lesson;
-const note=document.createElement("p");
-note.className="muted";
-note.textContent="Sample introduction. Full topic notes and practice questions are coming soon.";
-panel.append(title,text,note);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
+
 function changeLevel(){
 const level=document.getElementById("level").value;
 document.getElementById("lesson").querySelector("p").textContent="Selected level: "+level+". Choose a subject to begin.";
