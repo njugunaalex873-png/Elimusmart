@@ -204,15 +204,17 @@ function openSubject(name) {
   heading.textContent = "📘 " + name + " Revision";
   panel.appendChild(heading);
 
-  if (!topics || topics.length === 0) {
-    const message = document.createElement("p");
-    message.textContent =
-      "Revision notes and questions for " + name +
-      " are coming soon.";
-    panel.appendChild(message);
-    panel.scrollIntoView({ behavior: "smooth" });
-    return;
-  }
+  
+if (!topics || topics.length === 0) {
+  const message = document.createElement("p");
+  message.textContent = lessons[name] ||
+    "Revision notes for " + name +
+    " are being prepared. Please check back later.";
+  panel.appendChild(message);
+  panel.scrollIntoView({ behavior: "smooth" });
+  return;
+}
+  
 
   topics.forEach((topic, topicIndex) => {
     const topicHeading = document.createElement("h3");
