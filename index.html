@@ -165,7 +165,118 @@ list.appendChild(grid);
 if(!list.children.length)list.textContent="No matching subjects found.";
 }
 function filterSubjects(){renderSubjects()}
-function openSubject(name){
+
+function openSubject(name) {
+  const panel = document.getElementById("lesson");
+
+  // Load Grade 9 content when available
+  const topics = window.grade9Content &&
+    window.grade9Content[name];
+
+  panel.innerHTML = "";
+
+  const heading = document.createElement("h3");
+  heading.textContent = "📘 " + name + " Revision";
+  panel.appendChild(heading);
+
+  if (!topics || topics.length === 0) {
+    const message = document.createElement("p");
+    message.textContent =
+      "Revision notes and questions for " + name +
+      " are coming soon.";
+    panel.appendChild(message);
+    panel.scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+
+  topics.forEach((topic, topicIndex) => {
+    const topicHeading = document.createElement("h3");
+    topicHeading.textContent =
+      (topicIndex + 1) + ". " + topic.topic;
+    panel.appendChild(topicHeading);
+
+    const notesHeading = document.createElement("h4");
+    notesHeading.textContent = "📝 Notes";
+    panel.appendChild(notesHeading);
+
+    (topic.notes || []).forEach(note => {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = note;
+      panel.appendChild(paragraph);
+    });
+
+    (topic.examples || []).forEach(example => {
+      const exampleHeading = document.createElement("h4");
+      exampleHeading.textContent = "✏️ Worked example";
+      panel.appendChild(exampleHeading);
+
+      const question = document.createElement("p");
+      question.textContent = example.question;
+      panel.appendChild(question);
+
+      (example.working || []).forEach(step => {
+        const stepParagraph = document.createElement("p");
+        stepParagraph.textContent = step;
+        panel.appendChild(stepParagraph);
+      });
+
+      const answer = document.createElement("p");
+      answer.textContent = "Answer: " + example.answer;
+      panel.appendChild(answer);
+    });
+
+    (topic.questions || []).forEach((item, questionIndex) => {
+      const questionHeading = document.createElement("h4");
+      questionHeading.textContent =
+        "❓ Question " + (questionIndex + 1);
+      panel.appendChild(questionHeading);
+
+      const question = document.createElement("p");
+      question.textContent = item.q;
+      panel.appendChild(question);
+
+      const feedback = document.createElement("p");
+      feedback.setAttribute("aria-live", "polite");
+
+      (item.options || []).forEach((option, optionIndex) => {
+        const button = document.createElement("button");
+        button.className = "action";
+        button.textContent = option;
+
+        button.onclick = () => {
+          if (button.dataset.answered === "yes") return;
+
+          const buttons = Array.from(
+            panel.querySelectorAll("button[data-question='" +
+              topicIndex + "-" + questionIndex + "']")
+          );
+
+          buttons.forEach(b => {
+            b.dataset.answered = "yes";
+            b.disabled = true;
+          });
+
+          feedback.textContent =
+            optionIndex === item.answer
+              ? "Correct! 🎉 " + (item.explanation || "")
+              : "Not quite. Correct answer: " +
+                item.options[item.answer] + ". " +
+                (item.explanation || "");
+        };
+
+        button.dataset.question =
+          topicIndex + "-" + questionIndex;
+
+        panel.appendChild(button);
+      });
+
+      panel.appendChild(feedback);
+    });
+  });
+
+  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+  
 const lesson=lessons[name]||name+" revision materials will be added soon. Check your current curriculum and teacher's guidance for the topics you need.";
 const panel=document.getElementById("lesson");
 panel.innerHTML="";
