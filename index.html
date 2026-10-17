@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123c2c">
+<title>ElimuSmart | Kenyan Student Learning</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#17251e}
+header{background:#123c2c;color:white;padding:25px 18px;border-radius:0 0 24px 24px}
+header small{color:#bfe8ce}
+header h1{margin:10px 0;font-size:30px}
+main{max-width:800px;margin:auto;padding:18px}
+input,select{width:100%;padding:13px;border:1px solid #ccd9cf;border-radius:10px;font-size:16px;background:white}
+h2,h3{margin-bottom:10px}
+.group-title{margin:25px 0 12px}
+.subjects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.subject{background:white;border:1px solid #d8e5dc;border-radius:13px;padding:14px 10px;text-align:left;font-size:14px;cursor:pointer;min-height:90px}
+.subject span{display:block;font-size:25px;margin-bottom:8px}
+.subject:active{background:#dff4e6}
+.panel{background:white;border:1px solid #dce7df;border-radius:15px;padding:17px;margin-top:18px}
+button.action{background:#176b46;color:white;border:0;border-radius:9px;padding:12px 15px;margin:5px 4px 5px 0;font-size:15px;cursor:pointer}
+button.secondary{background:#e5efe8;color:#123c2c}
+.muted{color:#617067;font-size:14px;line-height:1.5}
+#lesson{line-height:1.7}
+footer{text-align:center;padding:25px;color:#617067;font-size:13px}
+.hidden{display:none}
+@media(min-width:520px){.subjects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header>
+<small>YOUR KENYAN LEARNING COMPANION 🇰🇪</small>
+<h1>ElimuSmart 📚</h1>
+<p>Learn today. Succeed tomorrow.</p>
+</header>
+
+<main>
+<h2>Welcome, Student!</h2>
+<p class="muted">Choose your level, search for a subject, and start learning.</p>
+
+<label for="level"><b>Your learning level</b></label>
+<select id="level" onchange="changeLevel()">
+<option>Grade 7</option>
+<option>Grade 8</option>
+<option selected>Grade 9</option>
+<option>Grade 10</option>
+<option>Grade 11</option>
+<option>Grade 12</option>
+<option>Form 1</option>
+<option>Form 2</option>
+<option>Form 3</option>
+<option>Form 4</option>
+</select>
+
+<h3 class="group-title">🔎 Find a subject</h3>
+<input id="search" placeholder="Search subjects..." oninput="filterSubjects()">
+
+<div id="subjectList"></div>
+
+<section class="panel" id="lesson">
+<h3>📘 Start Learning</h3>
+<p>Select any subject to see its sample lesson.</p>
+</section>
+
+<section class="panel" id="quiz">
+<h3>🎯 Daily Challenge</h3>
+<p id="question">Which planet is known as the Red Planet?</p>
+<div id="options"></div>
+<p id="result" aria-live="polite"></p>
+<button class="action secondary" onclick="nextQuestion()">Next question →</button>
+</section>
+
+<section class="panel">
+<h3>🏆 Your practice record</h3>
+<p id="score">Correct answers: 0 out of 0</p>
+<p class="muted">Your score is kept for this session. Saving progress between visits can be added next.</p>
+</section>
+</main>
+
+<footer>ElimuSmart © 2026 · Keep learning!</footer>
+
+<script>
+const groups = {
+"Mathematics & Sciences": {
+"📐":"Mathematics","🧬":"Biology","🧪":"Chemistry",
+"⚛️":"Physics","🔬":"Integrated Science"
+},
+"Languages": {
+"📖":"English","🗣️":"Kiswahili","🌍":"Indigenous Languages",
+"🇫🇷":"French","🇩🇪":"German","🇨🇳":"Chinese","🤟":"Kenyan Sign Language"
+},
+"Humanities & Social Studies": {
+"🌎":"Geography","🏛️":"History","✝️":"Christian Religious Education",
+"☪️":"Islamic Religious Education","🕉️":"Hindu Religious Education",
+"🤝":"Social Studies"
+},
+"Technology & Business": {
+"💻":"Computer Studies","💼":"Business Studies","🌱":"Agriculture",
+"🔧":"Pre-Technical Studies","💰":"Financial Literacy"
+},
+"Creative & Practical Subjects": {
+"🎨":"Art and Craft","🎵":"Music","⚽":"Physical Education",
+"🏠":"Home Science","👗":"Fashion and Design","🍲":"Food and Nutrition",
+"🎭":"Drama","📷":"Photography"
+}
+};
+
+const lessons = {
+"Mathematics":"Fractions: To add 1/2 + 1/4, write 1/2 as 2/4. Then 2/4 + 1/4 = 3/4.",
+"Biology":"Cells: The cell is the basic structural and functional unit of living organisms.",
+"Chemistry":"Matter: Matter is anything that has mass and occupies space.",
+"Physics":"Force: A force is a push or pull that can change an object's motion or shape.",
+"Integrated Science":"Scientific investigations use observations, measurements and evidence to answer questions.",
+"English":"Grammar: A noun names a person, place, animal or thing. Examples include teacher, Nairobi and book.",
+"Kiswahili":"Sarufi: Nomino ni neno linalotaja mtu, mnyama, mahali au kitu.",
+"Geography":"Weather describes atmospheric conditions at a particular place and time.",
+"History":"History studies past events and how people lived in earlier times.",
+"Computer Studies":"A computer receives data, processes it, stores it and produces information.",
+"Business Studies":"A business provides goods or services to meet people's needs and wants.",
+"Agriculture":"Agriculture involves crop production, livestock keeping and related activities.",
+"Christian Religious Education":"CRE explores Christian beliefs, biblical teachings and their application in daily life.",
+"Islamic Religious Education":"IRE explores Islamic beliefs, teachings and their application in daily life.",
+"Home Science":"Home Science covers nutrition, clothing, family living and home management.",
+"Art and Craft":"Art uses creative skills and materials to express ideas.",
+"Music":"Music involves sound, rhythm, melody and expression.",
+"Physical Education":"Physical Education develops movement skills, fitness, teamwork and knowledge of healthy activity.",
+"Pre-Technical Studies":"Pre-Technical Studies introduces design, materials, tools and practical problem-solving.",
+"Financial Literacy":"Financial literacy involves planning how to earn, spend, save and manage money.",
+"Social Studies":"Social Studies explores people, communities, citizenship and the environment.",
+"Indigenous Languages":"Indigenous languages carry cultural knowledge, identity, stories and traditions.",
+"Kenyan Sign Language":"Kenyan Sign Language uses visual signs and expressions for communication.",
+"French":"French is a language spoken in many countries around the world.",
+"German":"German is a language used in Germany, Austria and other communities.",
+"Chinese":"Chinese includes several language varieties; Mandarin is widely used."
+};
+
+function renderSubjects(){
+const list=document.getElementById("subjectList");
+list.innerHTML="";
+const search=document.getElementById("search").value.toLowerCase();
+Object.entries(groups).forEach(([group,subjects])=>{
+const matches=Object.entries(subjects).filter(([emoji,name])=>name.toLowerCase().includes(search)||group.toLowerCase().includes(search));
+if(!matches.length)return;
+const title=document.createElement("h3");
+title.className="group-title";
+title.textContent=group;
+list.appendChild(title);
+const grid=document.createElement("div");
+grid.className="subjects";
+matches.forEach(([emoji,name])=>{
+const button=document.createElement("button");
+button.className="subject";
+const icon=document.createElement("span");
+icon.textContent=emoji;
+button.appendChild(icon);
+button.appendChild(document.createTextNode(name));
+button.onclick=()=>openSubject(name);
+grid.appendChild(button);
+});
+list.appendChild(grid);
+});
+if(!list.children.length)list.textContent="No matching subjects found.";
+}
+function filterSubjects(){renderSubjects()}
+function openSubject(name){
+const lesson=lessons[name]||name+" revision materials will be added soon. Check your current curriculum and teacher's guidance for the topics you need.";
+const panel=document.getElementById("lesson");
+panel.innerHTML="";
+const title=document.createElement("h3");
+title.textContent="📘 "+name;
+const text=document.createElement("p");
+text.textContent=lesson;
+const note=document.createElement("p");
+note.className="muted";
+note.textContent="Sample introduction. Full topic notes and practice questions are coming soon.";
+panel.append(title,text,note);
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function changeLevel(){
+const level=document.getElementById("level").value;
+document.getElementById("lesson").querySelector("p").textContent="Selected level: "+level+". Choose a subject to begin.";
+}
+const questions=[
+{q:"Which planet is known as the Red Planet?",a:["Mars","Venus","Jupiter"],correct:0},
+{q:"What is 1/2 + 1/4?",a:["2/6","3/4","1/6"],correct:1},
+{q:"Which organ pumps blood around the human body?",a:["Lungs","Kidneys","Heart"],correct:2},
+{q:"What is the chemical formula for water?",a:["CO2","H2O","O2"],correct:1},
+{q:"What is the plural of 'child'?",a:["Childs","Children","Childes"],correct:1}
+];
+let current=0,answered=false,total=0,correctCount=0;
+function showQuestion(){
+answered=false;
+const q=questions[current];
+document.getElementById("question").textContent=(current+1)+". "+q.q;
+document.getElementById("result").textContent="";
+const options=document.getElementById("options");
+options.innerHTML="";
+q.a.forEach((answer,index)=>{
+const button=document.createElement("button");
+button.className="action";
+button.textContent=answer;
+button.onclick=()=>checkAnswer(index);
+options.appendChild(button);
+});
+}
+function checkAnswer(index){
+if(answered)return;
+answered=true;
+total++;
+const q=questions[current];
+if(index===q.correct){correctCount++;document.getElementById("result").textContent="Correct! 🎉";}
+else{document.getElementById("result").textContent="Good try! Correct answer: "+q.a[q.correct];}
+document.getElementById("score").textContent="Correct answers: "+correctCount+" out of "+total;
+}
+function nextQuestion(){
+current=(current+1)%questions.length;
+showQuestion();
+}
+renderSubjects();
+showQuestion();
+</script>
+</body>
+  </html>
+  
