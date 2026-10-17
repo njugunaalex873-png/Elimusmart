@@ -217,10 +217,11 @@ if (!Array.isArray(topics) || topics.length === 0) {
   
 
   topics.forEach((topic, topicIndex) => {
-    const topicHeading = document.createElement("h3");
-    topicHeading.textContent =
-      (topicIndex + 1) + ". " + topic.topic;
-    panel.appendChild(topicHeading);
+    
+const topicHeading = document.createElement("h3");
+topicHeading.innerHTML =
+  (topicIndex + 1) + ". <u>" + topic.topic + "</u>";
+panel.appendChild(topicHeading);
 
     const notesHeading = document.createElement("h4");
     notesHeading.textContent = "📝 Notes";
