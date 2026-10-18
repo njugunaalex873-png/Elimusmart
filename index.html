@@ -118,11 +118,81 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
     font-size: 25px;
   }
 }
+ 
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #123c2c;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.splash-content {
+  padding: 24px;
+  animation: splash-fade-in 0.5s ease;
+}
+
+.splash-spinner {
+  display: inline-block;
+  animation: splash-spin 1.2s linear infinite;
+}
+
+#splash-screen h1 {
+  font-size: 32px;
+  margin: 18px 0 8px;
+}
+
+#splash-screen p {
+  color: #bfe8ce;
+  margin-bottom: 24px;
+}
+
+.splash-loading {
+  font-size: 13px;
+  color: #d7f3e2;
+}
+
+@keyframes splash-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes splash-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+  }
   
 </style>
 </head>
 <body>
 
+<div id="splash-screen">
+  <div class="splash-content">
+    <div class="splash-spinner">
+      <svg viewBox="0 0 100 100" width="90" height="90"
+           xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46"
+                fill="none" stroke="#d7f3e2" stroke-width="5"/>
+        <circle cx="50" cy="50" r="46"
+                fill="none" stroke="#f4c542" stroke-width="5"
+                stroke-linecap="round" stroke-dasharray="75 215"/>
+        <path d="M20 34 Q35 28 50 40 Q65 28 80 34 L80 68 Q65 62 50 75 Q35 62 20 68 Z"
+              fill="#ffffff"/>
+        <path d="M50 40 V75" stroke="#176b46" stroke-width="3"/>
+        <path d="M65 17 L69 25 L78 26 L71 32 L73 41 L65 36 L57 41 L59 32 L52 26 L61 25 Z"
+              fill="#f4c542"/>
+      </svg>
+    </div>
+    <h1>ElimuSmart</h1>
+    <p>Learn today. Succeed tomorrow.</p>
+    <div class="splash-loading">Preparing your learning experience...</div>
+  </div>
+</div>
+  
 
 
 <div style="position:sticky;top:0;z-index:999;background:#123c2c;padding:10px;text-align:right">
@@ -1208,6 +1278,18 @@ onAuthStateChanged(auth, user => {
     }
   }
 });
+</script>
+  
+<script>
+(function () {
+  const splash = document.getElementById("splash-screen");
+
+  if (splash) {
+    setTimeout(function () {
+      splash.style.display = "none";
+    }, 6000);
+  }
+})();
 </script>
 </body>
   </html>
