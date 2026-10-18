@@ -718,7 +718,11 @@ window.elimuRegister = async function () {
   const gender = document.getElementById("gender").value;
 
   if (!firstName || !lastName || !gender || !identifier) {
-    showMessage("Please complete your name, gender and contact details.");
+    const status = document.getElementById("status");
+status.textContent = "Please complete your name, gender and contact details.";
+status.classList.remove("validation-error");
+void status.offsetWidth;
+status.classList.add("validation-error");
     return;
   }
 
