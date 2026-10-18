@@ -698,8 +698,9 @@ window.elimuLogin = async function () {
     });
   }
 };
+  
   let phoneConfirmation = null;
-let phoneRecaptcha = null;
+  let phoneRecaptcha = null;
   
 window.elimuSendPhoneCode = async function () {
   const phone = document.getElementById("phone-number").value.trim();
@@ -733,7 +734,6 @@ window.elimuSendPhoneCode = async function () {
     }
   }
 };
-  
 window.elimuVerifyPhoneCode = async function () {
   const code = document.getElementById("phone-code").value.trim();
 
