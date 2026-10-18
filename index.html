@@ -118,68 +118,83 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 
   <p id="auth-status">You are not signed in.</p>
 
-  <div id="auth-form">
-    <label for="auth-email">Email address</label>
-    <input id="auth-email" type="email"
-      placeholder="Enter your email">
+  
+  
+<div id="auth-form">
+  <h2>Create Your ElimuSmart Account</h2>
+  <p>Enter your details to get started.</p>
+
+  <div id="registration-step-1">
+    <label for="first-name">First Name</label>
+    <input id="first-name" type="text" placeholder="Enter first name" autocomplete="given-name">
+
+    <br><br>
+
+    <label for="last-name">Last Name</label>
+    <input id="last-name" type="text" placeholder="Enter last name" autocomplete="family-name">
+
+    <br><br>
+
+    <label for="gender">Gender</label>
+    <select id="gender">
+      <option value="">Select gender</option>
+      <option value="Female">Female</option>
+      <option value="Male">Male</option>
+      <option value="Prefer not to say">Prefer not to say</option>
+    </select>
 
     <br><br>
 
     <label for="auth-identifier">Email address or phone number</label>
-<input id="auth-identifier" type="text"
-  placeholder="Email or +254712345678">
+    <input id="auth-identifier" type="text"
+      placeholder="Email or +254712345678" autocomplete="username">
+
+    <br><br>
+
+    <label for="auth-password">Create Password</label>
+    <input id="auth-password" type="password"
+      placeholder="At least 6 characters" autocomplete="new-password">
 
     <br><br>
 
     <button class="action" type="button"
-      onclick="elimuRegister()">Create account</button>
-
-    <button class="action" type="button"
-      onclick="elimuLogin()">Sign in</button>
+      onclick="elimuStartRegistration()">Next</button>
 
     <button class="action secondary" type="button"
       onclick="elimuGoogle()">Continue with Google</button>
+
+    <p>Already have an account?</p>
+    <button class="action secondary" type="button"
+      onclick="elimuLogin()">Sign in</button>
   </div>
-  
-<div id="phone-auth">
-  <hr>
-  <h4>📱 Sign in with Phone Number</h4>
-  <p>Enter your phone number to receive a verification code by SMS.</p>
 
-  <label for="phone-number">Phone number</label>
-  <input
-    id="phone-number"
-    type="tel"
-    placeholder="+254712345678"
-  >
+  <div id="registration-step-2" hidden>
+    <h3>Verify Your Contact</h3>
+    <p id="registration-contact-message"></p>
 
-  <div id="recaptcha-container"></div>
+    <div id="email-verification-area" hidden>
+      <p>Open the verification link sent to your email, then return here.</p>
+      <button class="action" type="button"
+        onclick="elimuCheckEmailVerification()">I've verified my email</button>
+    </div>
 
-  <br>
+    <div id="sms-verification-area" hidden>
+      <div id="registration-recaptcha"></div>
+      <button class="action" type="button"
+        onclick="elimuRegisterSendSms()">Send SMS code</button>
 
-  <button class="action" type="button"
-    onclick="elimuSendPhoneCode()">
-    Send verification code
-  </button>
+      <br><br>
 
-  <br><br>
+      <label for="registration-sms-code">SMS verification code</label>
+      <input id="registration-sms-code" type="text"
+        inputmode="numeric" placeholder="Enter SMS code">
 
-  <label for="phone-code">SMS verification code</label>
-  <input
-    id="phone-code"
-    type="text"
-    inputmode="numeric"
-    placeholder="Enter SMS code"
-  >
-
-  <br><br>
-
-  <button class="action" type="button"
-    onclick="elimuVerifyPhoneCode()">
-    Verify code and sign in
-  </button>
+      <button class="action" type="button"
+        onclick="elimuRegisterVerifySms()">Verify and continue</button>
+    </div>
+  </div>
 </div>
-  
+
   <button class="action secondary" id="auth-logout"
     type="button" onclick="elimuLogout()" hidden>
     Sign out
