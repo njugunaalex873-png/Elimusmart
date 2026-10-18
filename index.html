@@ -837,6 +837,7 @@ window.elimuBackToRegistration = function () {
 };
   
 
+
 window.elimuLogin = async function () {
   const identifier = document.getElementById("auth-identifier").value.trim();
   const password = document.getElementById("auth-password").value;
@@ -857,7 +858,19 @@ window.elimuLogin = async function () {
       identifier,
       password
     );
-    
+
+    if (!result.user.emailVerified) {
+      showMessage("Please verify your email using the link we sent you.");
+      await signOut(auth);
+      return;
+    }
+
+    showMessage("Signed in successfully!");
+  } catch (error) {
+    showMessage("Sign-in failed: " + error.message);
+  }
+};
+
 window.elimuOpenSignInPage = function () {
   document.getElementById("auth-form").hidden = true;
   document.getElementById("signin-page").hidden = false;
@@ -880,18 +893,6 @@ window.elimuSignInPageSubmit = async function () {
   await window.elimuLogin();
 };
 
-    if (!result.user.emailVerified) {
-      showMessage("Please verify your email using the link we sent you.");
-      await signOut(auth);
-      return;
-    }
-
-    showMessage("Signed in successfully!");
-  } catch (error) {
-    showMessage("Sign-in failed: " + error.message);
-  }
-};
-  
   
   
 let registrationConfirmation = null;
