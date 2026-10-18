@@ -919,9 +919,10 @@ window.elimuCheckEmailVerification = async function () {
     await reload(user);
 
     if (user.emailVerified) {
-      showMessage("Email verified! Welcome to ElimuSmart.");
-      document.getElementById("registration-step-2").hidden = true;
-    } else {
+  showMessage("Email verified! Welcome to ElimuSmart.");
+  document.getElementById("registration-step-2").hidden = true;
+  window.location.reload();
+} else {
       showMessage("Your email is not verified yet. Open the link in your email, then try again.");
     }
   } catch (error) {
