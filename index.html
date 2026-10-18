@@ -780,6 +780,82 @@ window.elimuVerifyPhoneCode = async function () {
   }
 };
   
+window.elimuShowProfile = function () {
+  const user = auth.currentUser;
+  const details = document.getElementById("settings-details");
+
+  if (!user) {
+    showMessage("Please sign in first.");
+    return;
+  }
+
+  details.hidden = false;
+  details.innerHTML = `
+    <h4>My Profile</h4>
+    <p><b>Email:</b> ${user.email || "Not provided"}</p>
+    <p><b>Phone:</b> ${user.phoneNumber || "Not provided"}</p>
+    <p><b>User ID:</b> ${user.uid}</p>
+  `;
+};
+
+window.elimuShowChangePassword = function () {
+  const details = document.getElementById("settings-details");
+
+  details.hidden = false;
+  details.innerHTML = `
+    <h4>Change Password</h4>
+    <label for="new-password">New password</label>
+    <input id="new-password" type="password"
+      placeholder="At least 6 characters">
+
+    <button class="action" type="button"
+      onclick="elimuChangePassword()">
+      Update Password
+    </button>
+
+    <p id="password-message" aria-live="polite"></p>
+  `;
+};
+
+window.elimuChangePassword = async function () {
+  const user = auth.currentUser;
+  const input = document.getElementById("new-password");
+  const message = document.getElementById("password-message");
+  const newPassword = input.value;
+
+  if (!user) {
+    message.textContent = "Please sign in first.";
+    return;
+  }
+
+  if (!user.email || user.isAnonymous) {
+    message.textContent =
+      "Password changes are available for email accounts.";
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    message.textContent =
+      "Your new password must be at least 6 characters.";
+    return;
+  }
+
+  try {
+    const { updatePassword } = await import(
+      "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"
+    );
+
+    await updatePassword(user, newPassword);
+    message.textContent = "Password updated successfully!";
+    input.value = "";
+  } catch (error) {
+    message.textContent =
+      error.code === "auth/requires-recent-login"
+        ? "For security, sign out and sign in again before changing your password."
+        : "Could not update password: " + error.message;
+  }
+};
+  
   window.elimuGoogle = async function () {
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
