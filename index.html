@@ -788,47 +788,50 @@ window.elimuLogin = async function () {
 };
   
   
-  let phoneConfirmation = null;
-  let phoneRecaptcha = null;
   
-window.elimuSendPhoneCode = async function () {
-  const phone = document.getElementById("phone-number").value.trim();
+let registrationConfirmation = null;
+let registrationRecaptcha = null;
 
-  if (!phone.startsWith("+") || phone.length < 10) {
+window.elimuRegisterSendSms = async function () {
+  const identifier = document.getElementById("auth-identifier").value.trim();
+
+  if (!identifier.startsWith("+") || identifier.length < 10) {
     showMessage("Enter your phone number with country code, e.g. +254712345678.");
     return;
   }
 
   try {
-    if (!phoneRecaptcha) {
-      phoneRecaptcha = new RecaptchaVerifier(
+    if (!registrationRecaptcha) {
+      registrationRecaptcha = new RecaptchaVerifier(
         auth,
-        "recaptcha-container"
+        "registration-recaptcha",
+        {}
       );
-      await phoneRecaptcha.render();
+      await registrationRecaptcha.render();
     }
 
-    phoneConfirmation = await signInWithPhoneNumber(
+    registrationConfirmation = await signInWithPhoneNumber(
       auth,
-      phone,
-      phoneRecaptcha
+      identifier,
+      registrationRecaptcha
     );
 
-    showMessage("SMS code sent. Enter the code below.");
+    showMessage("SMS code sent. Enter it below.");
   } catch (error) {
     showMessage("Could not send SMS: " + error.message);
 
-    if (phoneRecaptcha) {
-      phoneRecaptcha.clear();
-      phoneRecaptcha = null;
+    if (registrationRecaptcha) {
+      registrationRecaptcha.clear();
+      registrationRecaptcha = null;
     }
   }
 };
-window.elimuVerifyPhoneCode = async function () {
-  const code = document.getElementById("phone-code").value.trim();
 
-  if (!phoneConfirmation) {
-    showMessage("Please request an SMS verification code first.");
+window.elimuRegisterVerifySms = async function () {
+  const code = document.getElementById("registration-sms-code").value.trim();
+
+  if (!registrationConfirmation) {
+    showMessage("Tap Send SMS code first.");
     return;
   }
 
@@ -838,12 +841,23 @@ window.elimuVerifyPhoneCode = async function () {
   }
 
   try {
-    await phoneConfirmation.confirm(code);
-    showMessage("Phone sign-in successful!");
+    const result = await registrationConfirmation.confirm(code);
+    const details = window.registrationDetails || {};
+    const fullName = [details.firstName, details.lastName]
+      .filter(Boolean)
+      .join(" ");
+
+    if (fullName) {
+      await updateProfile(result.user, { displayName: fullName });
+    }
+
+    document.getElementById("registration-step-2").hidden = true;
+    showMessage("Phone verified! Welcome to ElimuSmart.");
   } catch (error) {
     showMessage("Verification failed: " + error.message);
   }
 };
+  
   
 window.elimuShowProfile = function () {
   const user = auth.currentUser;
