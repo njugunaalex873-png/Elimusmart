@@ -716,6 +716,7 @@ window.elimuSendPhoneCode = async function () {
         auth,
         "recaptcha-container"
       );
+      await phoneRecaptcha.render();
     }
 
     phoneConfirmation = await signInWithPhoneNumber(
