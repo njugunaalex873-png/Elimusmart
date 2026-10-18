@@ -795,10 +795,12 @@ let registrationRecaptcha = null;
 window.elimuRegisterSendSms = async function () {
   const identifier = document.getElementById("auth-identifier").value.trim();
 
-  if (!identifier.startsWith("+") || identifier.length < 10) {
-    showMessage("Enter your phone number with country code, e.g. +254712345678.");
-    return;
-  }
+  const phone = identifier.replace(/\s+/g, "");
+
+if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+  showMessage("Enter a valid international phone number, e.g. +254712345678.");
+  return;
+}
 
   try {
     if (!registrationRecaptcha) {
@@ -811,10 +813,10 @@ window.elimuRegisterSendSms = async function () {
     }
 
     registrationConfirmation = await signInWithPhoneNumber(
-      auth,
-      identifier,
-      registrationRecaptcha
-    );
+  auth,
+  phone,
+  registrationRecaptcha
+);
 
     showMessage("SMS code sent. Enter it below.");
   } catch (error) {
