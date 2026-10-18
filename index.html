@@ -734,6 +734,27 @@ window.elimuSendPhoneCode = async function () {
   }
 };
   
+window.elimuVerifyPhoneCode = async function () {
+  const code = document.getElementById("phone-code").value.trim();
+
+  if (!phoneConfirmation) {
+    showMessage("Please request an SMS verification code first.");
+    return;
+  }
+
+  if (!code) {
+    showMessage("Enter the SMS verification code.");
+    return;
+  }
+
+  try {
+    await phoneConfirmation.confirm(code);
+    showMessage("Phone sign-in successful!");
+  } catch (error) {
+    showMessage("Verification failed: " + error.message);
+  }
+};
+  
   window.elimuGoogle = async function () {
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
