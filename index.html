@@ -739,36 +739,40 @@ window.elimuRegister = async function () {
   }
 };
   
+
 window.elimuLogin = async function () {
   const identifier = document.getElementById("auth-identifier").value.trim();
   const password = document.getElementById("auth-password").value;
 
-  if (!identifier) {
-    showMessage("Enter your email or phone number.");
+  if (!identifier || !identifier.includes("@")) {
+    showMessage("Enter the email address you used to register.");
     return;
   }
 
-  if (identifier.includes("@")) {
-    if (!password) {
-      showMessage("Enter your password.");
+  if (!password) {
+    showMessage("Enter your password.");
+    return;
+  }
+
+  try {
+    const result = await signInWithEmailAndPassword(
+      auth,
+      identifier,
+      password
+    );
+
+    if (!result.user.emailVerified) {
+      showMessage("Please verify your email using the link we sent you.");
+      await signOut(auth);
       return;
     }
 
-    try {
-      await signInWithEmailAndPassword(auth, identifier, password);
-      showMessage("Signed in successfully!");
-    } catch (error) {
-      showMessage(error.message);
-    }
-  } else {
-    document.getElementById("phone-number").value = identifier;
-    showMessage("Use the phone verification section below to receive your SMS code.");
-    document.getElementById("phone-number").scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
+    showMessage("Signed in successfully!");
+  } catch (error) {
+    showMessage("Sign-in failed: " + error.message);
   }
 };
+  
   
   let phoneConfirmation = null;
   let phoneRecaptcha = null;
