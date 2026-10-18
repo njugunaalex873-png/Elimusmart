@@ -44,6 +44,81 @@ button.secondary{background:#e5efe8;color:#123c2c}
 footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 .hidden{display:none}
 @media(min-width:520px){.subjects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  
+/* ElimuSmart registration design */
+#account-panel {
+  background: #ffffff;
+  border: 1px solid #e0e8e5;
+  border-radius: 18px;
+  padding: 26px;
+  margin: 24px auto;
+  max-width: 700px;
+  box-shadow: 0 4px 18px rgba(18, 60, 48, 0.06);
+}
+
+#account-panel h3 {
+  color: #126b53;
+  font-size: 23px;
+}
+
+#account-panel h2 {
+  color: #123c32;
+  font-size: 28px;
+  line-height: 1.3;
+}
+
+#account-panel label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+#account-panel input,
+#account-panel select {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px;
+  border: 1px solid #d5dedb;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+#account-panel button.action {
+  min-height: 52px;
+  padding: 13px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#account-panel button.create-account-btn {
+  display: block;
+  width: 100%;
+  background: #16745d;
+  color: #ffffff;
+  margin-top: 20px;
+}
+
+#account-panel button.secondary {
+  background: #eaf4f1;
+  color: #126b53;
+  border: 1px solid #d7e8e2;
+}
+
+@media (max-width: 520px) {
+  #account-panel {
+    margin: 14px 10px;
+    padding: 20px 16px;
+  }
+
+  #account-panel h2 {
+    font-size: 25px;
+  }
+}
+  
 </style>
 </head>
 <body>
@@ -180,12 +255,8 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
     <button class="action create-account-btn" type="button"
   onclick="elimuRegister()">Create Account →</button>
 
-    <button class="action secondary" type="button"
+  <button class="action secondary" type="button"
   onclick="elimuOpenSignInPage()">Sign in</button>
-
-    <p>Already have an account?</p>
-    <button class="action secondary" type="button"
-      onclick="elimuOpenSignInPage()">Sign in</button>
   </div>
   <div id="registration-step-2" hidden>
     <button class="action secondary" type="button"
