@@ -661,23 +661,37 @@ showQuestion();
     }
   };
 
-  window.elimuLogin = async function () {
-    const email = document.getElementById("auth-email").value.trim();
-    const password = document.getElementById("auth-password").value;
+  
+window.elimuLogin = async function () {
+  const identifier = document.getElementById("auth-identifier").value.trim();
+  const password = document.getElementById("auth-password").value;
 
-    if (!email || !password) {
-      showMessage("Enter your email and password.");
+  if (!identifier) {
+    showMessage("Enter your email or phone number.");
+    return;
+  }
+
+  if (identifier.includes("@")) {
+    if (!password) {
+      showMessage("Enter your password.");
       return;
     }
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, identifier, password);
       showMessage("Signed in successfully!");
     } catch (error) {
       showMessage(error.message);
     }
-  };
-
+  } else {
+    document.getElementById("phone-number").value = identifier;
+    showMessage("Use the phone verification section below to receive your SMS code.");
+    document.getElementById("phone-number").scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+};
   window.elimuGoogle = async function () {
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
