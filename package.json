@@ -1,0 +1,17 @@
+
+{
+  "name": "elimusmart",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ElimuSmart learning app",
+  "scripts": {
+    "build": "mkdir -p www && cp index.html www/index.html && if [ -f grade9-content.js ]; then cp grade9-content.js www/grade9-content.js; fi"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}
