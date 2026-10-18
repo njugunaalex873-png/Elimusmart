@@ -687,8 +687,6 @@ import {
     status.textContent = message;
   }
 
-  
-
 window.elimuRegister = async function () {
   const identifier = document.getElementById("auth-identifier").value.trim();
   const password = document.getElementById("auth-password").value;
@@ -696,48 +694,64 @@ window.elimuRegister = async function () {
   const lastName = document.getElementById("last-name").value.trim();
   const gender = document.getElementById("gender").value;
 
-  if (!firstName || !lastName || !gender || !identifier || !password) {
-    showMessage("Please complete all fields.");
+  if (!firstName || !lastName || !gender || !identifier) {
+    showMessage("Please complete your name, gender and contact details.");
     return;
   }
 
-  if (password.length < 6) {
-    showMessage("Your password must be at least 6 characters.");
+  const isEmail = identifier.includes("@");
+
+  if (isEmail && password.length < 6) {
+    showMessage("For email registration, use a password of at least 6 characters.");
     return;
   }
 
-  if (!identifier.includes("@")) {
-    showMessage("Phone registration will be set up in the next step. For now, enter an email address.");
+  if (!isEmail && (!identifier.startsWith("+") || identifier.length < 10)) {
+    showMessage("Enter your phone number with country code, e.g. +254712345678.");
     return;
   }
 
-  try {
-    const result = await createUserWithEmailAndPassword(
-      auth,
-      identifier,
-      password
-    );
+  if (isEmail) {
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth, identifier, password
+      );
 
-    await updateProfile(result.user, {
-      displayName: firstName + " " + lastName
-    });
+      await updateProfile(result.user, {
+        displayName: firstName + " " + lastName
+      });
 
-    await sendEmailVerification(result.user);
+      await sendEmailVerification(result.user);
 
-    document.getElementById("registration-step-1").hidden = true;
-    document.getElementById("registration-step-2").hidden = false;
-    document.getElementById("email-verification-area").hidden = false;
-    document.getElementById("sms-verification-area").hidden = true;
+      document.getElementById("registration-step-1").hidden = true;
+      document.getElementById("registration-step-2").hidden = false;
+      document.getElementById("email-verification-area").hidden = false;
+      document.getElementById("sms-verification-area").hidden = true;
 
-    document.getElementById("registration-contact-message").textContent =
-      "A verification link has been sent to " + identifier +
-      ". Open your email and tap the link, then return here.";
+      document.getElementById("registration-contact-message").textContent =
+        "A verification link has been sent to " + identifier +
+        ". Open your email and tap the link, then return here.";
 
-    showMessage("Account created. Please verify your email.");
-  } catch (error) {
-    showMessage("Registration failed: " + error.message);
+      showMessage("Account created. Please verify your email.");
+    } catch (error) {
+      showMessage("Registration failed: " + error.message);
+    }
+
+    return;
   }
+
+  window.registrationDetails = { firstName, lastName, gender };
+
+  document.getElementById("registration-step-1").hidden = true;
+  document.getElementById("registration-step-2").hidden = false;
+  document.getElementById("email-verification-area").hidden = true;
+  document.getElementById("sms-verification-area").hidden = false;
+  document.getElementById("registration-contact-message").textContent =
+    "Verify your phone number: " + identifier;
+
+  showMessage("Continue by requesting your SMS verification code.");
 };
+
   
 
 window.elimuLogin = async function () {
