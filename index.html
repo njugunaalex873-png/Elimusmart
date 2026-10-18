@@ -695,25 +695,20 @@ showQuestion();
       showMessage(error.message);
     }
   };
-
-  
 onAuthStateChanged(auth, user => {
   const accountPanel = document.getElementById("account-panel");
-
-  // Find the main learning sections
-  const appSections = document.querySelectorAll(
-    "header, main, footer, .subjects, .lesson, .quiz"
-  );
+  const learningApp = document.getElementById("learning-app");
 
   if (user) {
-    showMessage("Signed in as " + (user.email || user.phoneNumber || "student"));
+    showMessage(
+      "Signed in as " + (user.email || user.phoneNumber || "student")
+    );
     form.hidden = true;
     logoutButton.hidden = false;
 
-    // Let the student enter the app
-    appSections.forEach(section => {
-      section.hidden = false;
-    });
+    if (learningApp) {
+      learningApp.hidden = false;
+    }
 
     if (accountPanel) {
       accountPanel.hidden = true;
@@ -723,18 +718,15 @@ onAuthStateChanged(auth, user => {
     form.hidden = false;
     logoutButton.hidden = true;
 
-    // Keep the account screen visible before sign-in
-    if (accountPanel) {
-      accountPanel.hidden = false;
-      accountPanel.scrollIntoView({ behavior: "auto" });
+    if (learningApp) {
+      learningApp.hidden = true;
     }
 
-    appSections.forEach(section => {
-      section.hidden = true;
-    });
+    if (accountPanel) {
+      accountPanel.hidden = false;
+    }
   }
 });
-  
 </script>
 </body>
   </html>
