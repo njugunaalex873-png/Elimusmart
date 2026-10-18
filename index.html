@@ -644,24 +644,28 @@ showQuestion();
     status.textContent = message;
   }
 
-  window.elimuRegister = async function () {
-    const email = document.getElementById("auth-email").value.trim();
-    const password = document.getElementById("auth-password").value;
-
-    if (!email || !password) {
-      showMessage("Enter your email and password.");
-      return;
-    }
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      showMessage("Account created successfully!");
-    } catch (error) {
-      showMessage(error.message);
-    }
-  };
-
   
+window.elimuRegister = async function () {
+  const identifier = document.getElementById("auth-identifier").value.trim();
+  const password = document.getElementById("auth-password").value;
+
+  if (!identifier || !password) {
+    showMessage("Enter your email address and password to create an account.");
+    return;
+  }
+
+  if (!identifier.includes("@")) {
+    showMessage("To create an account, enter a valid email address.");
+    return;
+  }
+
+  try {
+    await createUserWithEmailAndPassword(auth, identifier, password);
+    showMessage("Account created successfully!");
+  } catch (error) {
+    showMessage(error.message);
+  }
+};
 window.elimuLogin = async function () {
   const identifier = document.getElementById("auth-identifier").value.trim();
   const password = document.getElementById("auth-password").value;
