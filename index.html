@@ -655,6 +655,8 @@ showQuestion();
   
 import {
   getAuth,
+  updateProfile,
+  sendEmailVerification,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -686,27 +688,57 @@ import {
   }
 
   
+
 window.elimuRegister = async function () {
   const identifier = document.getElementById("auth-identifier").value.trim();
   const password = document.getElementById("auth-password").value;
+  const firstName = document.getElementById("first-name").value.trim();
+  const lastName = document.getElementById("last-name").value.trim();
+  const gender = document.getElementById("gender").value;
 
-  if (!identifier || !password) {
-    showMessage("Enter your email address and password to create an account.");
+  if (!firstName || !lastName || !gender || !identifier || !password) {
+    showMessage("Please complete all fields.");
+    return;
+  }
+
+  if (password.length < 6) {
+    showMessage("Your password must be at least 6 characters.");
     return;
   }
 
   if (!identifier.includes("@")) {
-    showMessage("To create an account, enter a valid email address.");
+    showMessage("Phone registration will be set up in the next step. For now, enter an email address.");
     return;
   }
 
   try {
-    await createUserWithEmailAndPassword(auth, identifier, password);
-    showMessage("Account created successfully!");
+    const result = await createUserWithEmailAndPassword(
+      auth,
+      identifier,
+      password
+    );
+
+    await updateProfile(result.user, {
+      displayName: firstName + " " + lastName
+    });
+
+    await sendEmailVerification(result.user);
+
+    document.getElementById("registration-step-1").hidden = true;
+    document.getElementById("registration-step-2").hidden = false;
+    document.getElementById("email-verification-area").hidden = false;
+    document.getElementById("sms-verification-area").hidden = true;
+
+    document.getElementById("registration-contact-message").textContent =
+      "A verification link has been sent to " + identifier +
+      ". Open your email and tap the link, then return here.";
+
+    showMessage("Account created. Please verify your email.");
   } catch (error) {
-    showMessage(error.message);
+    showMessage("Registration failed: " + error.message);
   }
 };
+  
 window.elimuLogin = async function () {
   const identifier = document.getElementById("auth-identifier").value.trim();
   const password = document.getElementById("auth-password").value;
@@ -871,6 +903,32 @@ window.elimuChangePassword = async function () {
   }
 };
   
+window.elimuCheckEmailVerification = async function () {
+  const user = auth.currentUser;
+
+  if (!user) {
+    showMessage("Please create an account first.");
+    return;
+  }
+
+  try {
+    const { reload } = await import(
+      "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"
+    );
+
+    await reload(user);
+
+    if (user.emailVerified) {
+      showMessage("Email verified! Welcome to ElimuSmart.");
+      document.getElementById("registration-step-2").hidden = true;
+    } else {
+      showMessage("Your email is not verified yet. Open the link in your email, then try again.");
+    }
+  } catch (error) {
+    showMessage("Could not check verification: " + error.message);
+  }
+};
+  
   window.elimuGoogle = async function () {
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
@@ -892,7 +950,7 @@ onAuthStateChanged(auth, user => {
   const accountPanel = document.getElementById("account-panel");
   const learningApp = document.getElementById("learning-app");
 
-  if (user) {
+  if (user && (!user.email || user.emailVerified)) {
     showMessage(
       "Signed in as " + (user.email || user.phoneNumber || "student")
     );
