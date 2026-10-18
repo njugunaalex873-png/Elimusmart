@@ -59,7 +59,6 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 <input id="search" placeholder="Search subjects..." oninput="filterSubjects()">
 
 <div id="subjectList"></div>
-
 <section class="panel" id="lesson">
 <h3>📘 Start Learning</h3>
 <p>Select any subject to see its sample lesson.</p>
@@ -350,42 +349,27 @@ renderSubjects();
 showQuestion();
 </script>
 <script src="./grade9-content.js"></script>
-  
-#elimu-ai-button {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 64px;
-  height: 64px;
-  border: none;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #4285f4, #a142f4, #e9428b);
-  color: white;
-  font-size: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(65, 80, 180, 0.35);
-  cursor: pointer;
-  z-index: 9999;
-}
-  
 <style>
   #elimu-ai-button {
     position: fixed;
-    right: 18px;
-    bottom: 18px;
+    right: 20px;
+    bottom: 20px;
     z-index: 9999;
-    background: #155eef;
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4285f4, #a142f4, #e9428b);
     color: white;
     border: none;
-    border-radius: 28px;
-    padding: 14px 20px;
-    font-size: 16px;
-    font-weight: bold;
+    border-radius: 50%;
+    font-size: 32px;
     box-shadow: 0 4px 14px #0003;
+    cursor: pointer;
   }
-
+    
   #elimu-ai-panel {
     display: none;
     position: fixed;
@@ -459,7 +443,7 @@ showQuestion();
   }
 </style>
 
-<button id="elimu-ai-button" type="button">🎓 Ask AI Tutor</button>
+<button id="elimu-ai-button" type="button" aria-label="Open AI Tutor">✦</button>
 
 <section id="elimu-ai-panel" aria-label="ElimuSmart AI Tutor">
   <div id="elimu-ai-header">
