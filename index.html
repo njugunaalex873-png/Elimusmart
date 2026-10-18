@@ -561,6 +561,104 @@ showQuestion();
   });
 })();
   </script>
+  
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDnMj_-0i95zKgUXExpux2yR18pNz5WMSk",
+    authDomain: "elimusmart-8dd3b.firebaseapp.com",
+    projectId: "elimusmart-8dd3b",
+    storageBucket: "elimusmart-8dd3b.firebasestorage.app",
+    messagingSenderId: "168665547333",
+    appId: "1:168665547333:web:f88ee0bfad1f0423aa992c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const status = document.getElementById("auth-status");
+  const form = document.getElementById("auth-form");
+  const logoutButton = document.getElementById("auth-logout");
+
+  function showMessage(message) {
+    status.textContent = message;
+  }
+
+  window.elimuRegister = async function () {
+    const email = document.getElementById("auth-email").value.trim();
+    const password = document.getElementById("auth-password").value;
+
+    if (!email || !password) {
+      showMessage("Enter your email and password.");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      showMessage("Account created successfully!");
+    } catch (error) {
+      showMessage(error.message);
+    }
+  };
+
+  window.elimuLogin = async function () {
+    const email = document.getElementById("auth-email").value.trim();
+    const password = document.getElementById("auth-password").value;
+
+    if (!email || !password) {
+      showMessage("Enter your email and password.");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      showMessage("Signed in successfully!");
+    } catch (error) {
+      showMessage(error.message);
+    }
+  };
+
+  window.elimuGoogle = async function () {
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider());
+      showMessage("Google sign-in successful!");
+    } catch (error) {
+      showMessage(error.message);
+    }
+  };
+
+  window.elimuLogout = async function () {
+    try {
+      await signOut(auth);
+      showMessage("You have signed out.");
+    } catch (error) {
+      showMessage(error.message);
+    }
+  };
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      showMessage("Signed in as " + user.email);
+      form.hidden = true;
+      logoutButton.hidden = false;
+    } else {
+      showMessage("You are not signed in.");
+      form.hidden = false;
+      logoutButton.hidden = true;
+    }
+  });
+</script>
 </body>
   </html>
   
