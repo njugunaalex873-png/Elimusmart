@@ -169,6 +169,13 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
   </div>
 
   <div id="registration-step-2" hidden>
+    <button class="action secondary" type="button"
+  onclick="elimuBackToRegistration()">← Back</button>
+<button class="action secondary" type="button"
+  onclick="elimuBackToRegistration()">
+  ← Back
+</button>
+    
     <h3>Verify Your Contact</h3>
     <p id="registration-contact-message"></p>
 
@@ -751,7 +758,11 @@ window.elimuRegister = async function () {
 
   showMessage("Continue by requesting your SMS verification code.");
 };
-
+window.elimuBackToRegistration = function () {
+  document.getElementById("registration-step-2").hidden = true;
+  document.getElementById("registration-step-1").hidden = false;
+  showMessage("You can edit your registration details.");
+};
   
 
 window.elimuLogin = async function () {
