@@ -304,12 +304,21 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 
   <br><br>
 
-  <label for="signin-password">Password</label>
-  <input id="signin-password" type="password"
-    placeholder="Enter your password"
-    autocomplete="current-password">
+  
+<label for="signin-password">Password</label>
+<input id="signin-password" type="password"
+  placeholder="Enter your password"
+  autocomplete="current-password">
 
-  <br><br>
+<p style="text-align:right; margin:8px 0;">
+  <button class="action secondary" type="button"
+    onclick="elimuForgotPassword()">
+    Forgot password?
+  </button>
+</p>
+
+<br><br>
+  
 
   <button class="action" type="button"
     onclick="elimuSignInPageSubmit()">Sign in</button>
