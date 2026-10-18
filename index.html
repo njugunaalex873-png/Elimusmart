@@ -39,6 +39,7 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
   </a>
 </div>
   
+<div id="learning-app" hidden>
 <header>
 <small>YOUR KENYAN LEARNING COMPANION 🇰🇪</small>
 <h1>ElimuSmart 📚</h1>
@@ -86,6 +87,7 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 <p class="muted">Your score is kept for this session. Saving progress between visits can be added next.</p>
 </section>
 </main>
+</div>
 <section class="panel" id="account-panel">
   <h3>🔐 Student Account</h3>
   <p class="muted">Register or sign in to ElimuSmart.</p>
@@ -694,17 +696,45 @@ showQuestion();
     }
   };
 
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      showMessage("Signed in as " + user.email);
-      form.hidden = true;
-      logoutButton.hidden = false;
-    } else {
-      showMessage("You are not signed in.");
-      form.hidden = false;
-      logoutButton.hidden = true;
+  
+onAuthStateChanged(auth, user => {
+  const accountPanel = document.getElementById("account-panel");
+
+  // Find the main learning sections
+  const appSections = document.querySelectorAll(
+    "header, main, footer, .subjects, .lesson, .quiz"
+  );
+
+  if (user) {
+    showMessage("Signed in as " + (user.email || user.phoneNumber || "student"));
+    form.hidden = true;
+    logoutButton.hidden = false;
+
+    // Let the student enter the app
+    appSections.forEach(section => {
+      section.hidden = false;
+    });
+
+    if (accountPanel) {
+      accountPanel.hidden = true;
     }
-  });
+  } else {
+    showMessage("Please create an account or sign in to continue.");
+    form.hidden = false;
+    logoutButton.hidden = true;
+
+    // Keep the account screen visible before sign-in
+    if (accountPanel) {
+      accountPanel.hidden = false;
+      accountPanel.scrollIntoView({ behavior: "auto" });
+    }
+
+    appSections.forEach(section => {
+      section.hidden = true;
+    });
+  }
+});
+  
 </script>
 </body>
   </html>
