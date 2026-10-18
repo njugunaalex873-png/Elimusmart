@@ -775,12 +775,14 @@ showQuestion();
   </script>
   
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"
   
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
 import {
   getAuth,
   updateProfile,
   sendEmailVerification,
+  sendPasswordResetEmail,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -790,7 +792,7 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-
+  
   const firebaseConfig = {
     apiKey: "AIzaSyDnMj_-0i95zKgUXExpux2yR18pNz5WMSk",
     authDomain: "elimusmart-8dd3b.firebaseapp.com",
@@ -920,6 +922,22 @@ window.elimuLogin = async function () {
   }
 };
 
+window.elimuForgotPassword = async function () {
+  const email = prompt("Enter the email address you used to register:");
+
+  if (!email || !email.trim()) {
+    showMessage("Please enter your registered email address.");
+    return;
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email.trim());
+    showMessage("Password reset email sent. Check your inbox.");
+  } catch (error) {
+    showMessage("Could not send reset email: " + error.message);
+  }
+};
+  
 window.elimuOpenSignInPage = function () {
   document.getElementById("auth-form").hidden = true;
   document.getElementById("signin-page").hidden = false;
