@@ -101,9 +101,9 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 
     <br><br>
 
-    <label for="auth-password">Password</label>
-    <input id="auth-password" type="password"
-      placeholder="At least 6 characters">
+    <label for="auth-identifier">Email address or phone number</label>
+<input id="auth-identifier" type="text"
+  placeholder="Email or +254712345678">
 
     <br><br>
 
@@ -612,17 +612,19 @@ showQuestion();
   </script>
   
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"
+  
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDnMj_-0i95zKgUXExpux2yR18pNz5WMSk",
