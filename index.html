@@ -698,6 +698,42 @@ window.elimuLogin = async function () {
     });
   }
 };
+  let phoneConfirmation = null;
+let phoneRecaptcha = null;
+  
+window.elimuSendPhoneCode = async function () {
+  const phone = document.getElementById("phone-number").value.trim();
+
+  if (!phone.startsWith("+") || phone.length < 10) {
+    showMessage("Enter your phone number with country code, e.g. +254712345678.");
+    return;
+  }
+
+  try {
+    if (!phoneRecaptcha) {
+      phoneRecaptcha = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container"
+      );
+    }
+
+    phoneConfirmation = await signInWithPhoneNumber(
+      auth,
+      phone,
+      phoneRecaptcha
+    );
+
+    showMessage("SMS code sent. Enter the code below.");
+  } catch (error) {
+    showMessage("Could not send SMS: " + error.message);
+
+    if (phoneRecaptcha) {
+      phoneRecaptcha.clear();
+      phoneRecaptcha = null;
+    }
+  }
+};
+  
   window.elimuGoogle = async function () {
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
