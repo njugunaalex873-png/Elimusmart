@@ -707,6 +707,7 @@ function renderSubjects() {
   }
 }
   
+
 function renderNotesSubjects() {
   const container = document.getElementById("notes-subject-list");
   if (!container) return;
@@ -722,6 +723,9 @@ function renderNotesSubjects() {
 
       button.onclick = function () {
         const content = document.getElementById("notes-content");
+        const notesPage = document.getElementById("notes-reading-page");
+        const notesSection = document.getElementById("notes-section");
+
         content.innerHTML = "";
 
         const heading = document.createElement("h3");
@@ -733,12 +737,18 @@ function renderNotesSubjects() {
           "Revision notes for " + name +
           " are being prepared. Please check back later.";
         content.appendChild(note);
+
+        document.getElementById("notes-reading-title").textContent =
+          emoji + " " + name + " Notes";
+
+        notesSection.hidden = true;
+        notesPage.hidden = false;
       };
 
       container.appendChild(button);
     });
   });
-  }
+}
   
 function addStudyEvent() {
   const dateInput = document.getElementById("study-date");
