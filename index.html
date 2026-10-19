@@ -569,42 +569,45 @@ body {
         onclick="toggleElimuMenu(false)">✕</button>
     </div>
 
-    <button class="menu-item" type="button"
-      onclick="openElimuMenuPage('profile')">
-      👤 My Profile
-    </button>
+    
+<button class="menu-item" type="button"
+  onclick="openElimuMenuPage('profile')">
+  👤 <span data-i18n="profile">My Profile</span>
+</button>
 
-    <button class="menu-item" type="button"
-      onclick="openElimuMenuPage('password')">
-      🔒 Change Password
-    </button>
+<button class="menu-item" type="button"
+  onclick="openElimuMenuPage('password')">
+  🔒 <span data-i18n="password">Change Password</span>
+</button>
 
-    <button class="menu-item" type="button"
-      onclick="openElimuMenuPage('language')">
-      🌐 Language
-    </button>
+<button class="menu-item" type="button"
+  onclick="openElimuMenuPage('language')">
+  🌐 <span data-i18n="language">Language</span>
+</button>
 
-    <button class="menu-item logout-item" type="button"
-      onclick="toggleElimuMenu(false); elimuLogout()">
-      🚪 Log Out
-    </button>
+<button class="menu-item logout-item" type="button"
+  onclick="toggleElimuMenu(false); elimuLogout()">
+  🚪 <span data-i18n="logout">Log Out</span>
+</button>
 
-  </aside>
+</aside>
 </div>
-<section id="profile-section" class="panel" hidden>
-  <h2>👤 My Profile</h2>
 
-  <p><strong>Email address:</strong></p>
+<section id="profile-section" class="panel" hidden>
+  <h2>👤 <span data-i18n="profile">My Profile</span></h2>
+
+  <p><strong data-i18n="emailAddress">Email address:</strong></p>
   <p id="profile-email">Loading...</p>
 
-  <p><strong>Account status:</strong></p>
+  <p><strong data-i18n="accountStatus">Account status:</strong></p>
   <p id="profile-status">Signed in</p>
 
   <button class="action secondary" type="button"
     onclick="document.getElementById('profile-section').hidden=true; document.getElementById('home-page').hidden=false;">
-    ← Home
+    ← <span data-i18n="backHome">Home</span>
   </button>
-</section>
+  </section>
+  
 <section id="notes-section" class="panel" hidden>
   <h2>📒 Notes</h2>
   
@@ -2207,49 +2210,67 @@ window.openElimuMenuPage = function (page) {
   document.getElementById("language-message").textContent = "";
   }
 };
-    
-
+  
 const elimuTranslations = {
   en: {
     home: "Home",
     quizzes: "Quizzes",
     progress: "Progress",
     language: "Language",
-    profile: "Profile",
+    profile: "My Profile",
     password: "Change Password",
+    logout: "Log Out",
+    emailAddress: "Email address:",
+    accountStatus: "Account status:",
+    backHome: "Home",
     save: "Save Language",
     cancel: "Cancel",
     chooseLanguage: "Choose your preferred language."
   },
+
   sw: {
     home: "Nyumbani",
     quizzes: "Maswali",
     progress: "Maendeleo",
     language: "Lugha",
-    profile: "Wasifu",
+    profile: "Wasifu Wangu",
     password: "Badilisha Nenosiri",
+    logout: "Toka",
+    emailAddress: "Anwani ya barua pepe:",
+    accountStatus: "Hali ya akaunti:",
+    backHome: "Nyumbani",
     save: "Hifadhi Lugha",
     cancel: "Ghairi",
     chooseLanguage: "Chagua lugha unayopendelea."
   },
+
   fr: {
     home: "Accueil",
     quizzes: "Quiz",
     progress: "Progrès",
     language: "Langue",
-    profile: "Profil",
+    profile: "Mon profil",
     password: "Changer le mot de passe",
+    logout: "Déconnexion",
+    emailAddress: "Adresse e-mail :",
+    accountStatus: "État du compte :",
+    backHome: "Accueil",
     save: "Enregistrer la langue",
     cancel: "Annuler",
     chooseLanguage: "Choisissez votre langue préférée."
   },
+
   de: {
     home: "Startseite",
     quizzes: "Quiz",
     progress: "Fortschritt",
     language: "Sprache",
-    profile: "Profil",
+    profile: "Mein Profil",
     password: "Passwort ändern",
+    logout: "Abmelden",
+    emailAddress: "E-Mail-Adresse:",
+    accountStatus: "Kontostatus:",
+    backHome: "Startseite",
     save: "Sprache speichern",
     cancel: "Abbrechen",
     chooseLanguage: "Wählen Sie Ihre bevorzugte Sprache."
