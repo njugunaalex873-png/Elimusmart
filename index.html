@@ -275,21 +275,28 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
   </div>
 </section>
 
-
 <section id="notes-section" class="panel" hidden>
   <h2>📒 Notes</h2>
-  <p class="muted">Choose a subject below to read its revision notes.</p>
+  <p class="muted">Choose a subject to read its revision notes.</p>
 
   <div id="notes-subject-list"></div>
-  <div id="notes-content"></div>
 
   <button class="action secondary"
     onclick="document.getElementById('notes-section').hidden=true; document.getElementById('home-page').hidden=false;">
     ← Home
   </button>
 </section>
-  
 
+<section id="notes-reading-page" class="panel" hidden>
+  <h2 id="notes-reading-title">📒 Subject Notes</h2>
+
+  <div id="notes-content"></div>
+
+  <button class="action secondary"
+    onclick="document.getElementById('notes-reading-page').hidden=true; document.getElementById('notes-section').hidden=false;">
+    ← Back to Subjects
+  </button>
+</section>
 
 <section id="exams-section" class="panel" hidden>
   <h2>📝 Exams</h2>
