@@ -1371,7 +1371,9 @@ import {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
+window.elimuGetCurrentUser = function () {
+  return auth.currentUser;
+}; 
   const status = document.getElementById("auth-status");
   const form = document.getElementById("auth-form");
   const logoutButton = document.getElementById("auth-logout");
