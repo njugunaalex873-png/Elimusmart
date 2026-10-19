@@ -2217,6 +2217,8 @@ const elimuTranslations = {
     quizzes: "Quizzes",
     progress: "Progress",
     language: "Language",
+    languageSettings: "Language Settings",
+    appLanguage: "App language",
     profile: "My Profile",
     password: "Change Password",
     logout: "Log Out",
@@ -2241,6 +2243,8 @@ confirmPasswordPlaceholder: "Confirm new password",
     quizzes: "Maswali",
     progress: "Maendeleo",
     language: "Lugha",
+    languageSettings: "Mipangilio ya Lugha",
+    appLanguage: "Lugha ya programu",
     profile: "Wasifu Wangu",
     password: "Badilisha Nenosiri",
     logout: "Toka",
@@ -2265,6 +2269,8 @@ confirmPasswordPlaceholder: "Thibitisha nenosiri jipya",
     quizzes: "Quiz",
     progress: "Progrès",
     language: "Langue",
+    languageSettings: "Paramètres de langue",
+    appLanguage: "Langue de l’application",
     profile: "Mon profil",
     password: "Changer le mot de passe",
     logout: "Déconnexion",
@@ -2289,6 +2295,8 @@ confirmPasswordPlaceholder: "Confirmez le nouveau mot de passe",
     quizzes: "Quiz",
     progress: "Fortschritt",
     language: "Sprache",
+    languageSettings: "Spracheinstellungen",
+    appLanguage: "App-Sprache",
     profile: "Mein Profil",
     password: "Passwort ändern",
     logout: "Abmelden",
@@ -2422,12 +2430,17 @@ window.elimuSaveLanguage = function () {
   </button>
 </section>
   
-  
 <section id="language-section" class="panel" hidden>
-  <h2>🌐 Language Settings</h2>
-  <p>Choose your preferred language.</p>
+  <h2>🌐 <span data-i18n="languageSettings">Language Settings</span></h2>
 
-  <label for="elimu-language">App language</label>
+  <p data-i18n="chooseLanguage">
+    Choose your preferred language.
+  </p>
+
+  <label for="elimu-language" data-i18n="appLanguage">
+    App language
+  </label>
+
   <select id="elimu-language">
     <option value="en">English</option>
     <option value="sw">Kiswahili</option>
@@ -2437,18 +2450,18 @@ window.elimuSaveLanguage = function () {
 
   <p id="language-message" role="status"></p>
 
-  <button type="button" onclick="elimuSaveLanguage()">
+  <button type="button" onclick="elimuSaveLanguage()"
+    data-i18n="save">
     Save Language
   </button>
 
   <button type="button" onclick="
     document.getElementById('language-section').hidden = true;
     document.getElementById('home-page').hidden = false;
-  ">
+  " data-i18n="cancel">
     Cancel
   </button>
 </section>
-
   
 <nav id="bottom-navigation" class="bottom-navigation">
   <button class="bottom-nav-item active"
