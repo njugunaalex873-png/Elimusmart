@@ -1423,6 +1423,12 @@ showQuestion();
     border-radius: 8px;
     padding: 10px;
   }
+  
+/* Hide ElimuSmart AI until the user enters the dashboard */
+body:not(.dashboard-active) #elimu-ai-button,
+body:not(.dashboard-active) #elimu-ai-panel {
+  display: none !important;
+}
 </style>
 
 <button id="elimu-ai-button" type="button" aria-label="Open AI Tutor">✦</button>
