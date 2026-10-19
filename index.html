@@ -1963,13 +1963,14 @@ window.openElimuMenuPage = function (page) {
     document.getElementById("profile-status").textContent =
       user ? "Signed in" : "Not signed in";
 
-  } else if (page === "password") {
-    alert("Change Password page will be connected next.");
-  } else if (page === "language") {
-    alert("Language settings will be connected next.");
+} else if (page === "password") {
+  document.getElementById("home-page").hidden = true;
+  document.getElementById("change-password-section").hidden = false;
+  document.getElementById("change-password-message").textContent = "";
+} else if (page === "language") {
+  alert("Language settings will be connected next.");
   }
 };
-    
   </script>
 </body>
   </html>
