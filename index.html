@@ -185,16 +185,18 @@ body {
 #learning-app {
   padding-bottom: 12px;
 }
-  
-/* Hide dashboard pages and navigation before sign-in */
+/* Hide dashboard content before sign-in */
 body:not(.dashboard-active) #learning-app {
   display: none !important;
 }
 
-body:not(.dashboard-active) .bottom-nav {
+/* Hide common dashboard navigation containers */
+body:not(.dashboard-active) .bottom-nav,
+body:not(.dashboard-active) #bottom-nav,
+body:not(.dashboard-active) .bottom-navigation,
+body:not(.dashboard-active) #bottom-navigation {
   display: none !important;
-  }
-  
+}
 </style>
   
 <meta charset="UTF-8">
