@@ -261,7 +261,7 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
     </button>
 
     <button class="home-card" type="button"
-      onclick="document.getElementById('home-page').hidden=true; document.getElementById('subjects-section').hidden=false;">
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('subjects-section').hidden=false; renderMySubjectChoices();"
       <span>📚</span>
       <strong>My Subjects</strong>
       <small>Explore your subjects</small>
@@ -1544,6 +1544,58 @@ onAuthStateChanged(auth, user => {
   list.appendChild(item);
   eventInput.value = "";
   }
+  function renderMySubjectChoices() {
+  const container = document.getElementById("my-subject-choices");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  Object.values(groups).forEach(subjects => {
+    Object.entries(subjects).forEach(([emoji, name]) => {
+      const label = document.createElement("label");
+      label.style.display = "block";
+      label.style.padding = "10px";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = name;
+      checkbox.style.width = "auto";
+
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(" " + emoji + " " + name));
+      container.appendChild(label);
+    });
+  });
+}
+
+function applyMySubjects() {
+  const container = document.getElementById("my-subject-choices");
+  const result = document.getElementById("my-subjects-result");
+
+  const selected = Array.from(
+    container.querySelectorAll('input[type="checkbox"]:checked')
+  ).map(checkbox => checkbox.value);
+
+  if (selected.length === 0) {
+    result.textContent = "Please select at least one subject.";
+    return;
+  }
+
+  result.innerHTML = "";
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Your selected subjects";
+  result.appendChild(heading);
+
+  selected.forEach(name => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "action secondary";
+    button.textContent = name;
+    button.onclick = () => openSubject(name);
+    result.appendChild(button);
+  });
+}
 </script>
 </body>
   </html>
