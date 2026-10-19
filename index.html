@@ -638,7 +638,40 @@ function renderSubjects() {
     list.textContent = "No matching subjects found.";
   }
 }
+  
+function renderNotesSubjects() {
+  const container = document.getElementById("notes-subject-list");
+  if (!container) return;
 
+  container.innerHTML = "";
+
+  Object.values(groups).forEach(subjects => {
+    Object.entries(subjects).forEach(([emoji, name]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "action secondary";
+      button.textContent = emoji + " " + name;
+
+      button.onclick = function () {
+        const content = document.getElementById("notes-content");
+        content.innerHTML = "";
+
+        const heading = document.createElement("h3");
+        heading.textContent = name + " Revision Notes";
+        content.appendChild(heading);
+
+        const note = document.createElement("p");
+        note.textContent = lessons[name] ||
+          "Revision notes for " + name +
+          " are being prepared. Please check back later.";
+        content.appendChild(note);
+      };
+
+      container.appendChild(button);
+    });
+  });
+  }
+  
 function filterSubjects() {
   renderSubjects();
 }
