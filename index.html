@@ -197,6 +197,21 @@ body:not(.dashboard-active) .bottom-navigation,
 body:not(.dashboard-active) #bottom-navigation {
   display: none !important;
 }
+  
+/* Hide dashboard content and navigation before sign-in */
+body:not(.dashboard-active) #learning-app {
+  display: none !important;
+}
+
+body:not(.dashboard-active) #bottom-navigation {
+  display: none !important;
+}
+
+/* Show navigation after successful sign-in */
+body.dashboard-active #bottom-navigation {
+  display: flex;
+}
+  
 </style>
   
 <meta charset="UTF-8">
