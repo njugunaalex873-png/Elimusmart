@@ -102,6 +102,47 @@
   background: #fff0f0;
   color: #b42318;
   }
+  .bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index: 9999;
+  box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.bottom-nav-item {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.bottom-nav-item span {
+  font-size: 22px;
+}
+
+.bottom-nav-item.active {
+  color: #0d9488;
+  font-weight: bold;
+}
+
+body {
+  padding-bottom: 80px;
+}
 </style>
   
 <meta charset="UTF-8">
@@ -1336,6 +1377,21 @@ showQuestion();
     }
   });
 })();
+  window.elimuNavigate = function (page, button) {
+  const home = document.getElementById("home-page");
+  const quizzes = document.getElementById("quizzes-section");
+  const progress = document.getElementById("progress-section");
+
+  if (home) home.hidden = page !== "home";
+  if (quizzes) quizzes.hidden = page !== "quizzes";
+  if (progress) progress.hidden = page !== "progress";
+
+  document.querySelectorAll(".bottom-nav-item").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  if (button) button.classList.add("active");
+};
   </script>
   
 <script type="module">
@@ -1991,6 +2047,25 @@ window.openElimuMenuPage = function (page) {
     Cancel
   </button>
     </section>
+  <nav id="bottom-navigation" class="bottom-navigation">
+  <button class="bottom-nav-item active"
+          onclick="elimuNavigate('home', this)">
+    <span>🏠</span>
+    <small>Home</small>
+  </button>
+
+  <button class="bottom-nav-item"
+          onclick="elimuNavigate('quizzes', this)">
+    <span>📝</span>
+    <small>Quizzes</small>
+  </button>
+
+  <button class="bottom-nav-item"
+          onclick="elimuNavigate('progress', this)">
+    <span>📊</span>
+    <small>Progress</small>
+  </button>
+  </nav>
   
 </body>
   </html>
