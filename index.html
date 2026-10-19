@@ -1190,6 +1190,98 @@ const lessons = {
 "German":"German is a language used in Germany, Austria and other communities.",
 "Chinese":"Chinese includes several language varieties; Mandarin is widely used."
 };
+  
+const grade7Notes = {
+  "Mathematics": `
+  <h3><u>TOPIC 1: FRACTIONS</u></h3>
+
+  <b>Meaning of fractions</b>
+  A fraction represents part of a whole. It has a numerator (top number) and a denominator (bottom number).
+
+  <b>Types of fractions</b>
+  A proper fraction has a numerator smaller than its denominator. Example: 3/5.
+  An improper fraction has a numerator greater than or equal to its denominator. Example: 7/4.
+  Equivalent fractions represent the same value. Example: 1/2 = 2/4.
+
+  <b>Adding fractions with the same denominator</b>
+  Worked example: 2/7 + 3/7
+  Step 1: Add the numerators: 2 + 3 = 5.
+  Step 2: Keep the denominator unchanged.
+  Result: 5/7.
+
+  <b>Adding fractions with different denominators</b>
+  Worked example: 1/2 + 1/3
+  Step 1: Find a common denominator: 6.
+  Step 2: Convert the fractions: 1/2 = 3/6 and 1/3 = 2/6.
+  Step 3: Add: 3/6 + 2/6 = 5/6.
+  Result: 5/6.
+
+  <b>Subtracting fractions</b>
+  Worked example: 5/6 - 1/3
+  Step 1: Convert 1/3 to 2/6.
+  Step 2: Subtract: 5/6 - 2/6 = 3/6.
+  Step 3: Simplify: 3/6 = 1/2.
+  Result: 1/2.
+  `,
+
+  "Integrated Science": `
+  <h3><u>TOPIC 1: INTRODUCTION TO INTEGRATED SCIENCE</u></h3>
+
+  <b>Meaning of science</b>
+  Science is the systematic study of the natural world through observation, investigation and evidence.
+
+  <b>Scientific investigation</b>
+  Scientific investigation helps learners answer questions about the world.
+
+  Steps in an investigation:
+  1. Identify a problem or question.
+  2. Make observations.
+  3. Suggest a possible explanation.
+  4. Plan and carry out an investigation safely.
+  5. Record and analyse results.
+  6. Draw a conclusion based on evidence.
+
+  <b>Laboratory safety</b>
+  Follow the teacher's instructions, wear appropriate protective equipment, never taste chemicals and report spills or accidents immediately.
+  `,
+
+  "English": `
+  <h3><u>TOPIC 1: NOUNS</u></h3>
+
+  <b>Meaning of a noun</b>
+  A noun is a word that names a person, place, animal, thing or idea.
+
+  <b>Types of nouns</b>
+  Common nouns name general people, places or things. Examples: teacher, school and book.
+  Proper nouns name particular people or places. Examples: Amina and Nairobi.
+  Collective nouns refer to groups. Examples: team and class.
+  Abstract nouns name qualities or ideas. Examples: honesty and kindness.
+
+  <b>Using nouns in sentences</b>
+  Example: The teacher entered the classroom.
+  Step 1: Identify the person: teacher.
+  Step 2: Identify the place: classroom.
+  Both words are nouns.
+  `,
+
+  "Kiswahili": `
+  <h3><u>MADA YA 1: NOMINO</u></h3>
+
+  <b>Maana ya nomino</b>
+  Nomino ni neno linalotaja mtu, mnyama, mahali, kitu au hali.
+
+  <b>Aina za nomino</b>
+  Nomino za pekee hutaja majina maalumu, kwa mfano Amina na Nairobi.
+  Nomino za kawaida hutaja vitu au watu kwa jumla, kwa mfano mwanafunzi na kitabu.
+  Nomino za makundi hutaja kundi la vitu au viumbe.
+
+  <b>Matumizi ya nomino katika sentensi</b>
+  Mfano: Mwanafunzi anasoma kitabu.
+  Hatua ya 1: Tambua mtu anayetajwa: mwanafunzi.
+  Hatua ya 2: Tambua kitu kinachotajwa: kitabu.
+  Maneno hayo ni nomino.
+  `
+};
 
 function loadNotesForGrade() {
   const grade = document.getElementById("notes-grade").value;
@@ -1234,14 +1326,17 @@ function loadNotesForGrade() {
       const content = document.getElementById("notes-content");
       content.innerHTML = "";
 
-      const note = document.createElement("p");
-      note.textContent = lessons[name] ||
-        "Notes for " + grade + " " + name +
-        " are being prepared. Please check back later.";
+      
+const note = document.createElement("div");
+note.innerHTML =
+  (grade === "Grade 7" && grade7Notes[name])
+    ? grade7Notes[name]
+    : (lessons[name] ||
+       "Notes for " + grade + " " + name +
+       " are being prepared. Please check back later.");
 
-      content.appendChild(note);
-    };
-
+content.appendChild(note);
+  
     container.appendChild(button);
   });
 }
