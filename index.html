@@ -2208,13 +2208,79 @@ window.openElimuMenuPage = function (page) {
   }
 };
     
+
+const elimuTranslations = {
+  en: {
+    home: "Home",
+    quizzes: "Quizzes",
+    progress: "Progress",
+    language: "Language",
+    profile: "Profile",
+    password: "Change Password",
+    save: "Save Language",
+    cancel: "Cancel",
+    chooseLanguage: "Choose your preferred language."
+  },
+  sw: {
+    home: "Nyumbani",
+    quizzes: "Maswali",
+    progress: "Maendeleo",
+    language: "Lugha",
+    profile: "Wasifu",
+    password: "Badilisha Nenosiri",
+    save: "Hifadhi Lugha",
+    cancel: "Ghairi",
+    chooseLanguage: "Chagua lugha unayopendelea."
+  },
+  fr: {
+    home: "Accueil",
+    quizzes: "Quiz",
+    progress: "Progrès",
+    language: "Langue",
+    profile: "Profil",
+    password: "Changer le mot de passe",
+    save: "Enregistrer la langue",
+    cancel: "Annuler",
+    chooseLanguage: "Choisissez votre langue préférée."
+  },
+  de: {
+    home: "Startseite",
+    quizzes: "Quiz",
+    progress: "Fortschritt",
+    language: "Sprache",
+    profile: "Profil",
+    password: "Passwort ändern",
+    save: "Sprache speichern",
+    cancel: "Abbrechen",
+    chooseLanguage: "Wählen Sie Ihre bevorzugte Sprache."
+  }
+};
+
+window.elimuApplyLanguage = function (language) {
+  const translations =
+    elimuTranslations[language] || elimuTranslations.en;
+
+  document.documentElement.lang = language;
+
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+    const key = element.getAttribute("data-i18n");
+
+    if (translations[key] !== undefined) {
+      element.textContent = translations[key];
+    }
+  });
+};
+
 window.elimuSaveLanguage = function () {
-  const language = document.getElementById("elimu-language");
+  const selector = document.getElementById("elimu-language");
   const message = document.getElementById("language-message");
 
-  if (!language || !message) return;
+  if (!selector || !message) return;
 
-  localStorage.setItem("elimuLanguage", language.value);
+  const language = selector.value;
+
+  localStorage.setItem("elimuLanguage", language);
+  window.elimuApplyLanguage(language);
 
   const messages = {
     en: "Language preference saved.",
@@ -2223,8 +2289,9 @@ window.elimuSaveLanguage = function () {
     de: "Spracheinstellung gespeichert."
   };
 
-  message.textContent = messages[language.value] || messages.en;
+  message.textContent = messages[language] || messages.en;
 };
+    
     
   </script>
   
