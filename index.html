@@ -673,6 +673,7 @@ const lessons = {
 "Chinese":"Chinese includes several language varieties; Mandarin is widely used."
 };
   
+
 function loadNotesForGrade() {
   const grade = document.getElementById("notes-grade").value;
   const container = document.getElementById("notes-subject-list");
@@ -686,15 +687,40 @@ function loadNotesForGrade() {
     return;
   }
 
-  const message = document.createElement("p");
-  message.textContent =
-    "You selected " + grade +
-    ". Grade-specific subjects and notes will appear here.";
-  container.appendChild(message);
-}
+  const heading = document.createElement("h3");
+  heading.textContent = grade + " Subjects";
+  container.appendChild(heading);
+
+  Object.values(groups).forEach(subjects => {
+    Object.entries(subjects).forEach(([emoji, name]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "action secondary";
+      button.textContent = emoji + " " + name;
+
+      button.onclick = function () {
+        document.getElementById("notes-section").hidden = true;
+        document.getElementById("notes-reading-page").hidden = false;
+
+        document.getElementById("notes-reading-title").textContent =
+          grade + " — " + name + " Notes";
+
+        const content = document.getElementById("notes-content");
+        content.innerHTML = "";
+
+        const note = document.createElement("p");
+        note.textContent = lessons[name] ||
+          "Notes for " + grade + " " + name +
+          " are being prepared. Please check back later.";
+
+        content.appendChild(note);
+      };
+
+      container.appendChild(button);
+    });
+  });
+  }
   
-
-
 function renderSubjects() {
   const list = document.getElementById("subjectList");
   const searchBox = document.getElementById("search");
