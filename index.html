@@ -1953,7 +1953,16 @@ window.openElimuMenuPage = function (page) {
   document.getElementById("change-password-section").hidden = false;
   document.getElementById("change-password-message").textContent = "";
 } else if (page === "language") {
-  alert("Language settings will be connected next.");
+  document.getElementById("home-page").hidden = true;
+  document.getElementById("language-section").hidden = false;
+
+  const savedLanguage =
+    localStorage.getItem("elimuLanguage") || "en";
+
+  document.getElementById("elimu-language").value =
+    savedLanguage;
+
+  document.getElementById("language-message").textContent = "";
   }
 };
   </script>
