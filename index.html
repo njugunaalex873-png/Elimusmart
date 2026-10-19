@@ -596,17 +596,23 @@ body {
 <section id="profile-section" class="panel" hidden>
   <h2>👤 <span data-i18n="profile">My Profile</span></h2>
 
-  <p><strong data-i18n="emailAddress">Email address:</strong></p>
-  <p id="profile-email">Loading...</p>
+  <p>
+    <strong data-i18n="emailAddress">Email address:</strong>
+    <span id="profile-email">Loading...</span>
+  </p>
 
-  <p><strong data-i18n="accountStatus">Account status:</strong></p>
-  <p id="profile-status">Signed in</p>
+  <p>
+    <strong data-i18n="accountStatus">Account status:</strong>
+    <span id="profile-status">Signed in</span>
+  </p>
 
-  <button class="action secondary" type="button"
-    onclick="document.getElementById('profile-section').hidden=true; document.getElementById('home-page').hidden=false;">
-    ← <span data-i18n="backHome">Home</span>
+  <button type="button"
+    onclick="document.getElementById('profile-section').hidden=true; document.getElementById('home-page').hidden=false;"
+    data-i18n="backHome">
+    Home
   </button>
-  </section>
+</section>
+  
   
 <section id="notes-section" class="panel" hidden>
   <h2>📒 Notes</h2>
