@@ -1959,8 +1959,29 @@ window.openElimuMenuPage = function (page) {
   </script>
   
   <section id="change-password-section" class="panel" hidden>
-    <!-- Your complete Change Password HTML goes here -->
-  </section> 
+  <h2>🔒 Change Password</h2>
+  <p>Enter your current password and choose a new password.</p>
+
+  <label for="current-password">Current Password</label>
+  <input type="password" id="current-password">
+
+  <label for="new-password">New Password</label>
+  <input type="password" id="new-password">
+
+  <label for="confirm-new-password">Confirm New Password</label>
+  <input type="password" id="confirm-new-password">
+
+  <p id="change-password-message"></p>
+
+  <button type="button" onclick="elimuChangePassword()">
+    Update Password
+  </button>
+
+  <button type="button"
+    onclick="document.getElementById('change-password-section').hidden=true; document.getElementById('home-page').hidden=false;">
+    Cancel
+  </button>
+    </section>
   
 </body>
   </html>
