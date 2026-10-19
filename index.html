@@ -277,6 +277,21 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 
 <section id="notes-section" class="panel" hidden>
   <h2>📒 Notes</h2>
+  
+<label for="notes-grade"><b>Select your grade</b></label>
+
+<select id="notes-grade" onchange="loadNotesForGrade()">
+  <option value="">-- Choose your grade --</option>
+  <option value="Grade 7">Grade 7</option>
+  <option value="Grade 8">Grade 8</option>
+  <option value="Grade 9">Grade 9</option>
+  <option value="Grade 10">Grade 10</option>
+  <option value="Grade 11">Grade 11</option>
+  <option value="Grade 12">Grade 12</option>
+</select>
+
+<p class="muted">Choose a grade to see its subjects and revision notes.</p>
+  
   <p class="muted">Choose a subject to read its revision notes.</p>
 
   <div id="notes-subject-list"></div>
@@ -657,6 +672,27 @@ const lessons = {
 "German":"German is a language used in Germany, Austria and other communities.",
 "Chinese":"Chinese includes several language varieties; Mandarin is widely used."
 };
+  
+function loadNotesForGrade() {
+  const grade = document.getElementById("notes-grade").value;
+  const container = document.getElementById("notes-subject-list");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (!grade) {
+    container.textContent = "Please select your grade first.";
+    return;
+  }
+
+  const message = document.createElement("p");
+  message.textContent =
+    "You selected " + grade +
+    ". Grade-specific subjects and notes will appear here.";
+  container.appendChild(message);
+}
+  
 
 
 function renderSubjects() {
