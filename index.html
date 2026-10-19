@@ -1502,6 +1502,46 @@ window.elimuForgotPassword = async function () {
   }
 };
   
+<section id="change-password-section" class="panel" hidden>
+  <h2>🔒 Change Password</h2>
+  <p>Enter your current password and choose a new password.</p>
+
+  <label for="current-password">Current Password</label>
+  <input
+    type="password"
+    id="current-password"
+    placeholder="Enter current password"
+    autocomplete="current-password"
+  />
+
+  <label for="new-password">New Password</label>
+  <input
+    type="password"
+    id="new-password"
+    placeholder="Enter new password"
+    autocomplete="new-password"
+  />
+
+  <label for="confirm-new-password">Confirm New Password</label>
+  <input
+    type="password"
+    id="confirm-new-password"
+    placeholder="Confirm new password"
+    autocomplete="new-password"
+  />
+
+  <button class="action" type="button" onclick="elimuChangePassword()">
+    Update Password
+  </button>
+
+  <button class="action secondary" type="button"
+    onclick="document.getElementById('change-password-section').hidden=true; document.getElementById('home-page').hidden=false;">
+    ← Home
+  </button>
+
+  <p id="change-password-message"></p>
+</section>
+
 window.elimuOpenSignInPage = function () {
   document.getElementById("auth-form").hidden = true;
   document.getElementById("signin-page").hidden = false;
