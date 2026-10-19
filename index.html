@@ -1626,12 +1626,45 @@ function applyMySubjects() {
 }
 </script>
   <script>
+
 function openKCSEYear(year) {
   document.getElementById('kcse-paper-area').hidden = false;
   document.getElementById('kcse-year-title').textContent =
     'KCSE Past Papers ' + year;
-  document.getElementById('kcse-paper-message').textContent =
-    'You selected ' + year + '. Subject papers and marking schemes still need to be connected.';
+
+  const subjects = [
+    'Mathematics',
+    'English',
+    'Kiswahili',
+    'Biology',
+    'Chemistry',
+    'Physics',
+    'Geography',
+    'History and Government',
+    'Christian Religious Education',
+    'Agriculture',
+    'Business Studies'
+  ];
+
+  const area = document.getElementById('kcse-paper-message');
+
+  area.innerHTML = '<p>Select a subject for ' + year + ':</p>';
+
+  subjects.forEach(function(subject) {
+    const button = document.createElement('button');
+    button.className = 'home-card';
+    button.type = 'button';
+    button.textContent = subject;
+
+    button.onclick = function() {
+      alert(
+        subject + ' KCSE ' + year +
+        ' past paper has not been connected yet.'
+      );
+    };
+
+    area.appendChild(button);
+  });
 }
   </script>
 </body>
