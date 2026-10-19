@@ -16,6 +16,92 @@
   20%, 60% { transform: translateX(-4px); }
   40%, 80% { transform: translateX(4px); }
 }
+  
+/* Home page header */
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.home-header h2 {
+  margin-top: 0;
+}
+
+.menu-button {
+  flex-shrink: 0;
+  font-size: 25px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #183d2b;
+  color: white;
+  cursor: pointer;
+}
+
+/* Menu background */
+#elimu-menu-overlay:not([hidden]) {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* Half-screen drawer */
+#elimu-menu-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 52%;
+  max-width: 320px;
+  min-width: 190px;
+  height: 100vh;
+  height: 100dvh;
+  box-sizing: border-box;
+  padding: 18px 12px;
+  overflow-y: auto;
+  background: white;
+  color: #183d2b;
+  box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+}
+
+.menu-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  font-size: 19px;
+}
+
+.menu-drawer-header button {
+  border: none;
+  background: transparent;
+  color: #183d2b;
+  font-size: 22px;
+  padding: 6px;
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 14px 8px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #edf5ef;
+  color: #183d2b;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logout-item {
+  margin-top: 18px;
+  background: #fff0f0;
+  color: #b42318;
+  }
 </style>
   
 <meta charset="UTF-8">
@@ -238,25 +324,37 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
   <p>Learn today. Succeed tomorrow.</p>
 </header>
   
-<section id="home-page" class="panel">
-  <h2>Hello, Sir/Madam 👋</h2>
-  <p>Welcome to ElimuSmart, where you build your future.</p>
 
+<section id="home-page" class="panel">
+
+  <div class="home-header">
+    <div>
+      <h2>Hello, Sir/Madam 👋</h2>
+      <p>Welcome to ElimuSmart, where you build your future.</p>
+    </div>
+
+    <button type="button"
+      class="menu-button"
+      aria-label="Open menu"
+      onclick="toggleElimuMenu(true)">
+      ☰
+    </button>
+  </div>
   <div class="home-grid">
     <button class="home-card" type="button"
       onclick="document.getElementById('home-page').hidden=true; document.getElementById('notes-section').hidden=false; renderNotesSubjects();">
-       <span>📒</span>
+      <span>📒</span>
       <strong>Notes</strong>
       <small>Read your study notes</small>
     </button>
-    
-<button class="home-card" type="button"
-  onclick="document.getElementById('home-page').hidden=true; document.getElementById('exams-section').hidden=false; document.getElementById('quiz').scrollIntoView({behavior:'smooth'});">
-  <span>📝</span>
-  <strong>Exams</strong>
-  <small>Practise exam questions</small>
-</button>
-    
+
+    <button class="home-card" type="button"
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('exams-section').hidden=false; document.getElementById('quiz').scrollIntoView({behavior:'smooth'});">
+      <span>📝</span>
+      <strong>Exams</strong>
+      <small>Practise exam questions</small>
+    </button>
+
     <button class="home-card" type="button"
       onclick="document.getElementById('home-page').hidden=true; document.getElementById('calendar-section').hidden=false;">
       <span>📅</span>
@@ -264,16 +362,51 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
       <small>Plan your study time</small>
     </button>
 
-    
-<button class="home-card" type="button"
-  onclick="document.getElementById('home-page').hidden=true; document.getElementById('subjects-section').hidden=false; renderMySubjectChoices();">
-  <span>📚</span>
-  <strong>My Subjects</strong>
-  <small>Explore your subjects</small>
-</button>
-    
+    <button class="home-card" type="button"
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('subjects-section').hidden=false; renderMySubjectChoices();">
+      <span>📚</span>
+      <strong>My Subjects</strong>
+      <small>Explore your subjects</small>
+    </button>
   </div>
 </section>
+
+<!-- Half-screen menu drawer -->
+<div id="elimu-menu-overlay" hidden
+  onclick="toggleElimuMenu(false)">
+
+  <aside id="elimu-menu-drawer"
+    onclick="event.stopPropagation()">
+
+    <div class="menu-drawer-header">
+      <strong>Menu</strong>
+      <button type="button"
+        aria-label="Close menu"
+        onclick="toggleElimuMenu(false)">✕</button>
+    </div>
+
+    <button class="menu-item" type="button"
+      onclick="openElimuMenuPage('profile')">
+      👤 My Profile
+    </button>
+
+    <button class="menu-item" type="button"
+      onclick="openElimuMenuPage('password')">
+      🔒 Change Password
+    </button>
+
+    <button class="menu-item" type="button"
+      onclick="openElimuMenuPage('language')">
+      🌐 Language
+    </button>
+
+    <button class="menu-item logout-item" type="button"
+      onclick="toggleElimuMenu(false); elimuLogout()">
+      🚪 Log Out
+    </button>
+
+  </aside>
+</div>
 
 <section id="notes-section" class="panel" hidden>
   <h2>📒 Notes</h2>
@@ -1751,6 +1884,26 @@ function openKCSEYear(year) {
     area.appendChild(button);
   });
 }
+    
+window.toggleElimuMenu = function (open) {
+  const overlay = document.getElementById("elimu-menu-overlay");
+
+  if (overlay) {
+    overlay.hidden = !open;
+  }
+};
+
+window.openElimuMenuPage = function (page) {
+  window.toggleElimuMenu(false);
+
+  if (page === "profile") {
+    alert("My Profile page will be connected next.");
+  } else if (page === "password") {
+    alert("Change Password page will be connected next.");
+  } else if (page === "language") {
+    alert("Language settings will be connected next.");
+  }
+};
   </script>
 </body>
   </html>
