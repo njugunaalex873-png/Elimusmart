@@ -1267,42 +1267,65 @@ showQuestion();
 </script>
 <script src="./grade9-content.js"></script>
 <style>
-  #elimu-ai-button {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 9999;
-    width: 64px;
-    height: 64px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #4285f4, #a142f4, #e9428b);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 32px;
-    box-shadow: 0 4px 14px #0003;
-    cursor: pointer;
+  
+#elimu-ai-button {
+  position: fixed;
+  right: 18px;
+
+  /* Raise button above bottom navigation */
+  bottom: calc(88px + env(safe-area-inset-bottom));
+
+  z-index: 10001;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #4285f4,
+    #a142f4,
+    #e9428b
+  );
+
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 32px;
+  box-shadow: 0 4px 14px #0003;
+  cursor: pointer;
   }
+  
     
-  #elimu-ai-panel {
-    display: none;
-    position: fixed;
-    right: 12px;
-    bottom: 78px;
-    z-index: 9999;
-    width: min(360px, calc(100vw - 24px));
-    height: 440px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 16px;
-    box-shadow: 0 5px 24px #0003;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    color: #222;
-  }
+  
+#elimu-ai-panel {
+  display: none;
+  position: fixed;
+  right: 12px;
+
+  /* Raise the AI chat window */
+  bottom: calc(150px + env(safe-area-inset-bottom));
+
+  z-index: 10000;
+  width: min(360px, calc(100vw - 24px));
+
+  /* Fit smaller phone screens */
+  height: min(440px, calc(100dvh - 190px));
+  max-height: calc(100dvh - 190px);
+  min-height: 220px;
+
+  background: #ffffff;
+  border: 1px solid #e0e8e3;
+  border-radius: 16px;
+  box-shadow: 0 5px 24px #0003;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+  
 
   #elimu-ai-header {
     background: #155eef;
