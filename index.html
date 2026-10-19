@@ -315,11 +315,25 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 </section>
   
 
+
 <section id="subjects-section" class="panel" hidden>
   <h2>📚 My Subjects</h2>
-  <p>Your subjects will appear here.</p>
-  <button class="action" onclick="document.getElementById('subjects-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
+  <p class="muted">Choose the subjects you want to study.</p>
+
+  <div id="my-subject-choices"></div>
+
+  <button class="action" type="button" onclick="applyMySubjects()">
+    Apply Subjects
+  </button>
+
+  <div id="my-subjects-result"></div>
+
+  <button class="action secondary" type="button"
+    onclick="document.getElementById('subjects-section').hidden=true; document.getElementById('home-page').hidden=false;">
+    ← Home
+  </button>
 </section>
+  
 
 <style>
 .home-grid {
@@ -690,6 +704,42 @@ function renderNotesSubjects() {
     });
   });
   }
+  
+function addStudyEvent() {
+  const dateInput = document.getElementById("study-date");
+  const eventInput = document.getElementById("study-event");
+  const list = document.getElementById("study-event-list");
+
+  const date = dateInput.value;
+  const activity = eventInput.value.trim();
+
+  if (!date || !activity) {
+    alert("Please choose a date and enter an activity.");
+    return;
+  }
+
+  const item = document.createElement("div");
+  item.className = "panel";
+
+  const heading = document.createElement("strong");
+  heading.textContent = date;
+  item.appendChild(heading);
+
+  const description = document.createElement("p");
+  description.textContent = activity;
+  item.appendChild(description);
+
+  const removeButton = document.createElement("button");
+  removeButton.className = "action secondary";
+  removeButton.textContent = "Remove";
+  removeButton.onclick = function () {
+    item.remove();
+  };
+  item.appendChild(removeButton);
+
+  list.appendChild(item);
+  eventInput.value = "";
+    }
   
 function filterSubjects() {
   renderSubjects();
