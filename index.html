@@ -1509,6 +1509,41 @@ onAuthStateChanged(auth, user => {
     }, 2000);
   }
 })();
+  function addStudyEvent() {
+  const dateInput = document.getElementById("study-date");
+  const eventInput = document.getElementById("study-event");
+  const list = document.getElementById("study-event-list");
+
+  const date = dateInput.value;
+  const activity = eventInput.value.trim();
+
+  if (!date || !activity) {
+    alert("Please choose a date and enter an activity.");
+    return;
+  }
+
+  const item = document.createElement("div");
+  item.className = "panel";
+
+  const heading = document.createElement("strong");
+  heading.textContent = date;
+  item.appendChild(heading);
+
+  const description = document.createElement("p");
+  description.textContent = activity;
+  item.appendChild(description);
+
+  const removeButton = document.createElement("button");
+  removeButton.className = "action secondary";
+  removeButton.textContent = "Remove";
+  removeButton.onclick = function () {
+    item.remove();
+  };
+  item.appendChild(removeButton);
+
+  list.appendChild(item);
+  eventInput.value = "";
+  }
 </script>
 </body>
   </html>
