@@ -1980,7 +1980,7 @@ window.openElimuMenuPage = function (page) {
     document.getElementById("home-page").hidden = true;
     document.getElementById("profile-section").hidden = false;
 
-    const user = auth.currentUser;
+    const user = window.elimuGetCurrentUser();
     document.getElementById("profile-email").textContent =
       user ? (user.email || "No email available") : "Not signed in";
 
