@@ -1389,7 +1389,8 @@ window.elimuRegister = async function () {
   const lastName = document.getElementById("last-name").value.trim();
   const gender = document.getElementById("gender").value;
 
-if (!firstName || !lastName || !gender || !identifier) {
+
+ if (!firstName || !lastName || !gender || !identifier) {
   showMessage(
     "Please complete your name, gender and contact details."
   );
@@ -1400,17 +1401,10 @@ if (!firstName || !lastName || !gender || !identifier) {
     status.classList.remove("validation-error");
     void status.offsetWidth;
     status.classList.add("validation-error");
-  }
+   }
 
-  return;
+   return;
 }
-const status = document.getElementById("auth-status");
-status.classList.remove("validation-error");
-void status.offsetWidth;
-status.classList.add("validation-error");
-
-return;
-  }
 
   const isEmail = identifier.includes("@");
 
