@@ -2270,6 +2270,29 @@ window.elimuApplyLanguage = function (language) {
     }
   });
 };
+    
+function elimuInitLanguage() {
+  const savedLanguage =
+    localStorage.getItem("elimuLanguage") || "en";
+
+  const selector =
+    document.getElementById("elimu-language");
+
+  if (selector) {
+    selector.value = savedLanguage;
+  }
+
+  window.elimuApplyLanguage(savedLanguage);
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    elimuInitLanguage
+  );
+} else {
+  elimuInitLanguage();
+    }
 
 window.elimuSaveLanguage = function () {
   const selector = document.getElementById("elimu-language");
@@ -2346,25 +2369,26 @@ window.elimuSaveLanguage = function () {
   </button>
 </section>
 
-  <nav id="bottom-navigation" class="bottom-navigation">
+  
+<nav id="bottom-navigation" class="bottom-navigation">
   <button class="bottom-nav-item active"
           onclick="elimuNavigate('home', this)">
     <span>🏠</span>
-    <small>Home</small>
+    <small data-i18n="home">Home</small>
   </button>
 
   <button class="bottom-nav-item"
           onclick="elimuNavigate('quizzes', this)">
     <span>📝</span>
-    <small>Quizzes</small>
+    <small data-i18n="quizzes">Quizzes</small>
   </button>
 
   <button class="bottom-nav-item"
           onclick="elimuNavigate('progress', this)">
     <span>📊</span>
-    <small>Progress</small>
+    <small data-i18n="progress">Progress</small>
   </button>
-  </nav>
+</nav>
   
 </body>
   </html>
