@@ -1389,12 +1389,21 @@ window.elimuRegister = async function () {
   const lastName = document.getElementById("last-name").value.trim();
   const gender = document.getElementById("gender").value;
 
-  if (!firstName || !lastName || !gender || !identifier) {
-    const status = document.getElementById("status");
-showMessage(
-  "Please complete your name, gender and contact details."
-);
+if (!firstName || !lastName || !gender || !identifier) {
+  showMessage(
+    "Please complete your name, gender and contact details."
+  );
 
+  const status = document.getElementById("auth-status");
+
+  if (status) {
+    status.classList.remove("validation-error");
+    void status.offsetWidth;
+    status.classList.add("validation-error");
+  }
+
+  return;
+}
 const status = document.getElementById("auth-status");
 status.classList.remove("validation-error");
 void status.offsetWidth;
