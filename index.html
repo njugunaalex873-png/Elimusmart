@@ -407,7 +407,20 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 
   </aside>
 </div>
+<section id="profile-section" class="panel" hidden>
+  <h2>👤 My Profile</h2>
 
+  <p><strong>Email address:</strong></p>
+  <p id="profile-email">Loading...</p>
+
+  <p><strong>Account status:</strong></p>
+  <p id="profile-status">Signed in</p>
+
+  <button class="action secondary" type="button"
+    onclick="document.getElementById('profile-section').hidden=true; document.getElementById('home-page').hidden=false;">
+    ← Home
+  </button>
+</section>
 <section id="notes-section" class="panel" hidden>
   <h2>📒 Notes</h2>
   
@@ -1897,13 +1910,23 @@ window.openElimuMenuPage = function (page) {
   window.toggleElimuMenu(false);
 
   if (page === "profile") {
-    alert("My Profile page will be connected next.");
+    document.getElementById("home-page").hidden = true;
+    document.getElementById("profile-section").hidden = false;
+
+    const user = auth.currentUser;
+    document.getElementById("profile-email").textContent =
+      user ? (user.email || "No email available") : "Not signed in";
+
+    document.getElementById("profile-status").textContent =
+      user ? "Signed in" : "Not signed in";
+
   } else if (page === "password") {
     alert("Change Password page will be connected next.");
   } else if (page === "language") {
     alert("Language settings will be connected next.");
   }
 };
+    
   </script>
 </body>
   </html>
