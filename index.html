@@ -1389,11 +1389,16 @@ window.elimuRegister = async function () {
 
   if (!firstName || !lastName || !gender || !identifier) {
     const status = document.getElementById("status");
-status.textContent = "Please complete your name, gender and contact details.";
+showMessage(
+  "Please complete your name, gender and contact details."
+);
+
+const status = document.getElementById("auth-status");
 status.classList.remove("validation-error");
 void status.offsetWidth;
 status.classList.add("validation-error");
-    return;
+
+return;
   }
 
   const isEmail = identifier.includes("@");
