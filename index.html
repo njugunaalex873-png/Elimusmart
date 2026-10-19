@@ -1516,63 +1516,44 @@ const grade7Notes = {
   Step 4: End the conversation politely.
   `
 };
+
 function loadNotesForGrade() {
-  const grade = document.getElementById("notes-grade").value;
-  const container = document.getElementById("notes-subject-list");
-alert("Notes function is running!");
-  if (!container) return;
+  const gradeSelect = document.getElementById("notes-grade");
+  const subjectList = document.getElementById("notes-subject-list");
 
-  container.innerHTML = "";
+  if (!gradeSelect || !subjectList) return;
 
-  if (!grade) {
-    container.textContent = "Please select your grade first.";
-    return;
-  }
+  const grade = gradeSelect.value;
+  subjectList.innerHTML = "";
 
-  const heading = document.createElement("h3");
-  heading.textContent = grade + " Subjects";
-  container.appendChild(heading);
+  if (!grade) return;
 
-  const emojiBySubject = {};
+  Object.values(groups).forEach(subjectGroup => {
+    Object.keys(subjectGroup).forEach(name => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = name;
+      button.className = "subject-button";
 
-  Object.values(groups).forEach(subjects => {
-    Object.entries(subjects).forEach(([emoji, name]) => {
-      emojiBySubject[name] = emoji;
+      button.addEventListener("click", function () {
+        const readingPage = document.getElementById("notes-reading-page");
+        const title = document.getElementById("notes-reading-title");
+        const content = document.getElementById("notes-reading-content");
+
+        if (!readingPage || !title || !content) return;
+
+        title.textContent = grade + " — " + name + " Notes";
+        content.textContent =
+          lessons[name] || "Notes for this subject are coming soon.";
+
+        document.getElementById("notes-section").hidden = true;
+        readingPage.hidden = false;
+      });
+
+      subjectList.appendChild(button);
     });
   });
-
-  const subjects = gradeSubjects[grade] || [];
-
-  subjects.forEach(name => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "action secondary";
-    button.textContent = (emojiBySubject[name] || "📘") + " " + name;
-
-    button.onclick = function () {
-      document.getElementById("notes-section").hidden = true;
-      document.getElementById("notes-reading-page").hidden = false;
-
-      document.getElementById("notes-reading-title").textContent =
-        grade + " — " + name + " Notes";
-
-      const content = document.getElementById("notes-content");
-      content.innerHTML = "";
-
-      
-const note = document.createElement("div");
-note.innerHTML =
-  (grade === "Grade 7" && grade7Notes[name])
-    ? grade7Notes[name]
-    : (lessons[name] ||
-       "Notes for " + grade + " " + name +
-       " are being prepared. Please check back later.");
-
-content.appendChild(note);
-  
-    container.appendChild(button);
-  });
-}
+  }
   
 function renderSubjects() {
   const list = document.getElementById("subjectList");
