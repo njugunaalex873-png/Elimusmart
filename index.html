@@ -513,8 +513,8 @@ body {
 
   <div class="home-header">
     <div>
-      <h2>Hello, Sir/Madam 👋</h2>
-      <p>Welcome to ElimuSmart, where you build your future.</p>
+      <h2 data-i18n="dashboardGreeting">Hello, Sir/Madam 👋</h2>
+      <p data-i18n="dashboardWelcome">Welcome to ElimuSmart, where you build your future.</p>
     </div>
 
     <button type="button"
@@ -528,29 +528,29 @@ body {
     <button class="home-card" type="button"
       onclick="document.getElementById('home-page').hidden=true; document.getElementById('notes-section').hidden=false; renderNotesSubjects();">
       <span>📒</span>
-      <strong>Notes</strong>
-      <small>Read your study notes</small>
+      <strong data-i18n="notes">Notes</strong>
+      <small data-i18n="readStudyNotes">Read your study notes</small>
     </button>
 
     <button class="home-card" type="button"
       onclick="document.getElementById('home-page').hidden=true; document.getElementById('exams-section').hidden=false; document.getElementById('quiz').scrollIntoView({behavior:'smooth'});">
       <span>📝</span>
-      <strong>Exams</strong>
-      <small>Practise exam questions</small>
+      <strong data-i18n="exams">Exams</strong>
+      <small data-i18n="practiceExamQuestions">Practise exam questions</small>
     </button>
 
     <button class="home-card" type="button"
       onclick="document.getElementById('home-page').hidden=true; document.getElementById('calendar-section').hidden=false;">
       <span>📅</span>
-      <strong>Calendar</strong>
-      <small>Plan your study time</small>
+      <strong data-i18n="calendar">Calendar</strong>
+      <small data-i18n="planStudyTime">Plan your study time</small>
     </button>
 
     <button class="home-card" type="button"
       onclick="document.getElementById('home-page').hidden=true; document.getElementById('subjects-section').hidden=false; renderMySubjectChoices();">
       <span>📚</span>
-      <strong>My Subjects</strong>
-      <small>Explore your subjects</small>
+      <strong data-i18n="mySubjects">My Subjects</strong>
+      <small data-i18n="exploreSubjects">Explore your subjects</small>
     </button>
   </div>
 </section>
@@ -2242,6 +2242,16 @@ updatePassword: "Update Password",
 currentPasswordPlaceholder: "Enter current password",
 newPasswordPlaceholder: "Enter new password",
 confirmPasswordPlaceholder: "Confirm new password",
+    dashboardGreeting: "Hello, Sir/Madam 👋",
+dashboardWelcome: "Welcome to ElimuSmart, where you build your future.",
+notes: "Notes",
+readStudyNotes: "Read your study notes",
+exams: "Exams",
+practiceExamQuestions: "Practise exam questions",
+calendar: "Calendar",
+planStudyTime: "Plan your study time",
+mySubjects: "My Subjects",
+exploreSubjects: "Explore your subjects",
   },
 
   sw: {
@@ -2268,6 +2278,16 @@ updatePassword: "Sasisha Nenosiri",
 currentPasswordPlaceholder: "Weka nenosiri la sasa",
 newPasswordPlaceholder: "Weka nenosiri jipya",
 confirmPasswordPlaceholder: "Thibitisha nenosiri jipya",
+    dashboardGreeting: "Habari, Karibu 👋",
+dashboardWelcome: "Karibu ElimuSmart, ambapo unajenga maisha yako ya baadaye.",
+notes: "Maelezo",
+readStudyNotes: "Soma maelezo yako ya masomo",
+exams: "Mitihani",
+practiceExamQuestions: "Fanya mazoezi ya maswali ya mitihani",
+calendar: "Kalenda",
+planStudyTime: "Panga muda wako wa kusoma",
+mySubjects: "Masomo Yangu",
+exploreSubjects: "Chunguza masomo yako",
   },
 
   fr: {
@@ -2294,6 +2314,16 @@ updatePassword: "Mettre à jour le mot de passe",
 currentPasswordPlaceholder: "Saisissez le mot de passe actuel",
 newPasswordPlaceholder: "Saisissez le nouveau mot de passe",
 confirmPasswordPlaceholder: "Confirmez le nouveau mot de passe",
+    dashboardGreeting: "Bonjour 👋",
+dashboardWelcome: "Bienvenue sur ElimuSmart, où vous construisez votre avenir.",
+notes: "Notes de cours",
+readStudyNotes: "Lisez vos notes de cours",
+exams: "Examens",
+practiceExamQuestions: "Entraînez-vous avec des questions d’examen",
+calendar: "Calendrier",
+planStudyTime: "Planifiez votre temps d’étude",
+mySubjects: "Mes matières",
+exploreSubjects: "Explorez vos matières",
   },
 
   de: {
@@ -2320,6 +2350,16 @@ updatePassword: "Passwort aktualisieren",
 currentPasswordPlaceholder: "Aktuelles Passwort eingeben",
 newPasswordPlaceholder: "Neues Passwort eingeben",
 confirmPasswordPlaceholder: "Neues Passwort bestätigen",
+  dashboardGreeting: "Hallo 👋",
+dashboardWelcome: "Willkommen bei ElimuSmart, wo Sie Ihre Zukunft gestalten.",
+notes: "Lernnotizen",
+readStudyNotes: "Lesen Sie Ihre Lernnotizen",
+exams: "Prüfungen",
+practiceExamQuestions: "Üben Sie Prüfungsfragen",
+calendar: "Kalender",
+planStudyTime: "Planen Sie Ihre Lernzeit",
+mySubjects: "Meine Fächer",
+exploreSubjects: "Entdecken Sie Ihre Fächer",
   }
 };
     
