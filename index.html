@@ -1657,11 +1657,11 @@ function openKCSEYear(year) {
     button.textContent = subject;
 
     button.onclick = function() {
-      alert(
-        subject + ' KCSE ' + year +
-        ' past paper has not been connected yet.'
-      );
-    };
+  window.open(
+    'https://www.revisekenya.com/kcse-exams-answers/',
+    '_blank'
+  );
+};
 
     area.appendChild(button);
   });
