@@ -1656,12 +1656,11 @@ function openKCSEYear(year) {
     button.type = 'button';
     button.textContent = subject;
 
-    button.onclick = function() {
-  window.open(
-    'https://www.revisekenya.com/kcse-exams-answers/',
-    '_blank'
-  );
+  button.onclick = function() {
+  window.location.href =
+    'https://www.revisekenya.com/kcse-exams-answers/';
 };
+    
 
     area.appendChild(button);
   });
