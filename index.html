@@ -290,11 +290,32 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
 </section>
   
 
+
 <section id="exams-section" class="panel" hidden>
   <h2>📝 Exams</h2>
-  <p>Your practice exams will appear here.</p>
+  <p>Select a KCSE past paper year to begin revision.</p>
+
+  <h3>📚 KCSE Past Papers</h3>
+
+  <div class="home-grid">
+    <button class="home-card" onclick="openKCSEYear(2020)">2020 KCSE Papers</button>
+    <button class="home-card" onclick="openKCSEYear(2021)">2021 KCSE Papers</button>
+    <button class="home-card" onclick="openKCSEYear(2022)">2022 KCSE Papers</button>
+    <button class="home-card" onclick="openKCSEYear(2023)">2023 KCSE Papers</button>
+    <button class="home-card" onclick="openKCSEYear(2024)">2024 KCSE Papers</button>
+    <button class="home-card" onclick="openKCSEYear(2025)">2025 KCSE Papers</button>
+  </div>
+
+  <div id="kcse-paper-area" class="panel" hidden>
+    <h3 id="kcse-year-title"></h3>
+    <p>Choose a subject to find its past papers and marking schemes.</p>
+    <p id="kcse-paper-message"></p>
+    <button class="action" onclick="document.getElementById('kcse-paper-area').hidden=true;">← Back to years</button>
+  </div>
+
   <button class="action" onclick="document.getElementById('exams-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
 </section>
+  
 
 
 <section id="calendar-section" class="panel" hidden>
@@ -1604,6 +1625,15 @@ function applyMySubjects() {
   });
 }
 </script>
+  <script>
+function openKCSEYear(year) {
+  document.getElementById('kcse-paper-area').hidden = false;
+  document.getElementById('kcse-year-title').textContent =
+    'KCSE Past Papers ' + year;
+  document.getElementById('kcse-paper-message').textContent =
+    'You selected ' + year + '. Subject papers and marking schemes still need to be connected.';
+}
+  </script>
 </body>
   </html>
   
