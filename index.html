@@ -1665,24 +1665,20 @@ window.elimuShowProfile = function () {
 };
 
 window.elimuShowChangePassword = function () {
-  const details = document.getElementById("settings-details");
+  const section = document.getElementById(
+    "change-password-section"
+  );
 
-  details.hidden = false;
-  details.innerHTML = `
-    <h4>Change Password</h4>
-    <label for="new-password">New password</label>
-    <input id="new-password" type="password"
-      placeholder="At least 6 characters">
+  if (!auth.currentUser) {
+    showMessage("Please sign in first.");
+    return;
+  }
 
-    <button class="action" type="button"
-      onclick="elimuChangePassword()">
-      Update Password
-    </button>
+  document.getElementById("home-page").hidden = true;
+  section.hidden = false;
 
-    <p id="password-message" aria-live="polite"></p>
-  `;
+  document.getElementById("change-password-message").textContent = "";
 };
-
 
 window.elimuChangePassword = async function () {
   const currentPassword =
