@@ -1657,11 +1657,18 @@ function openKCSEYear(year) {
     button.textContent = subject;
 
   button.onclick = function() {
-  window.location.href =
-    'https://education.co.ke/2020-k-c-s-e-knec-past-papers/';
-};
-    
+  const paperLinks = {
+    2020: 'https://education.co.ke/2020-k-c-s-e-knec-past-papers/',
+    2021: 'https://teacher.co.ke/k-c-s-e-past-papers-1996-2021/',
+    2022: 'https://education.co.ke/2022-kcse-knec-past-papers/',
+    2023: 'https://education.co.ke/k-c-s-e-past-papers-1996-2021-2/',
+    2024: 'https://teacher.co.ke/k-c-s-e-past-papers-1996-2021/',
+    2025: 'https://education.co.ke/'
+  };
 
+  window.location.href = paperLinks[year];
+};
+  
     area.appendChild(button);
   });
 }
