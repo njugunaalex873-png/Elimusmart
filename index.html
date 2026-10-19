@@ -2226,6 +2226,14 @@ const elimuTranslations = {
     save: "Save Language",
     cancel: "Cancel",
     chooseLanguage: "Choose your preferred language."
+    passwordInstructions: "Enter your current password and choose a new password.",
+currentPassword: "Current Password",
+newPassword: "New Password",
+confirmNewPassword: "Confirm New Password",
+updatePassword: "Update Password",
+currentPasswordPlaceholder: "Enter current password",
+newPasswordPlaceholder: "Enter new password",
+confirmPasswordPlaceholder: "Confirm new password",
   },
 
   sw: {
@@ -2242,6 +2250,14 @@ const elimuTranslations = {
     save: "Hifadhi Lugha",
     cancel: "Ghairi",
     chooseLanguage: "Chagua lugha unayopendelea."
+  passwordInstructions: "Weka nenosiri lako la sasa na uchague nenosiri jipya.",
+currentPassword: "Nenosiri la Sasa",
+newPassword: "Nenosiri Jipya",
+confirmNewPassword: "Thibitisha Nenosiri Jipya",
+updatePassword: "Sasisha Nenosiri",
+currentPasswordPlaceholder: "Weka nenosiri la sasa",
+newPasswordPlaceholder: "Weka nenosiri jipya",
+confirmPasswordPlaceholder: "Thibitisha nenosiri jipya",
   },
 
   fr: {
@@ -2258,6 +2274,14 @@ const elimuTranslations = {
     save: "Enregistrer la langue",
     cancel: "Annuler",
     chooseLanguage: "Choisissez votre langue préférée."
+    passwordInstructions: "Saisissez votre mot de passe actuel et choisissez-en un nouveau.",
+currentPassword: "Mot de passe actuel",
+newPassword: "Nouveau mot de passe",
+confirmNewPassword: "Confirmer le nouveau mot de passe",
+updatePassword: "Mettre à jour le mot de passe",
+currentPasswordPlaceholder: "Saisissez le mot de passe actuel",
+newPasswordPlaceholder: "Saisissez le nouveau mot de passe",
+confirmPasswordPlaceholder: "Confirmez le nouveau mot de passe",
   },
 
   de: {
@@ -2274,6 +2298,14 @@ const elimuTranslations = {
     save: "Sprache speichern",
     cancel: "Abbrechen",
     chooseLanguage: "Wählen Sie Ihre bevorzugte Sprache."
+    passwordInstructions: "Geben Sie Ihr aktuelles Passwort ein und wählen Sie ein neues Passwort.",
+currentPassword: "Aktuelles Passwort",
+newPassword: "Neues Passwort",
+confirmNewPassword: "Neues Passwort bestätigen",
+updatePassword: "Passwort aktualisieren",
+currentPasswordPlaceholder: "Aktuelles Passwort eingeben",
+newPasswordPlaceholder: "Neues Passwort eingeben",
+confirmPasswordPlaceholder: "Neues Passwort bestätigen",
   }
 };
     
@@ -2356,30 +2388,40 @@ window.elimuSaveLanguage = function () {
     
   </script>
   
-  <section id="change-password-section" class="panel" hidden>
-  <h2>🔒 Change Password</h2>
-  <p>Enter your current password and choose a new password.</p>
 
-  <label for="current-password">Current Password</label>
-  <input type="password" id="current-password">
+<section id="change-password-section" class="panel" hidden>
+  <h2>🔒 <span data-i18n="password">Change Password</span></h2>
 
-  <label for="new-password">New Password</label>
-  <input type="password" id="new-password">
+  <p data-i18n="passwordInstructions">
+    Enter your current password and choose a new password.
+  </p>
 
-  <label for="confirm-new-password">Confirm New Password</label>
-  <input type="password" id="confirm-new-password">
+  <label for="current-password" data-i18n="currentPassword">Current Password</label>
+  <input type="password" id="current-password"
+    data-i18n-placeholder="currentPasswordPlaceholder">
+
+  <label for="new-password" data-i18n="newPassword">New Password</label>
+  <input type="password" id="new-password"
+    data-i18n-placeholder="newPasswordPlaceholder">
+
+  <label for="confirm-new-password" data-i18n="confirmNewPassword">Confirm New Password</label>
+  <input type="password" id="confirm-new-password"
+    data-i18n-placeholder="confirmPasswordPlaceholder">
 
   <p id="change-password-message"></p>
 
-  <button type="button" onclick="elimuChangePassword()">
+  <button type="button" onclick="elimuChangePassword()"
+    data-i18n="updatePassword">
     Update Password
   </button>
 
   <button type="button"
-    onclick="document.getElementById('change-password-section').hidden=true; document.getElementById('home-page').hidden=false;">
+    onclick="document.getElementById('change-password-section').hidden=true; document.getElementById('home-page').hidden=false;"
+    data-i18n="cancel">
     Cancel
   </button>
-    </section>
+</section>
+  
   
 <section id="language-section" class="panel" hidden>
   <h2>🌐 Language Settings</h2>
