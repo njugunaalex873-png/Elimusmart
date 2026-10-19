@@ -247,7 +247,7 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
     </button>
 
     <button class="home-card" type="button"
-      onclick="document.getElementById('home-page').hidden=true; document.getElementById('exams-section').hidden=false;">
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('exams-section').hidden=false; document.getElementById('quiz').scrollIntoView({behavior:'smooth'});"
       <span>📝</span>
       <strong>Exams</strong>
       <small>Practise exam questions</small>
@@ -290,11 +290,30 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
   <button class="action" onclick="document.getElementById('exams-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
 </section>
 
+
 <section id="calendar-section" class="panel" hidden>
-  <h2>📅 Calendar</h2>
-  <p>Your study calendar will appear here.</p>
-  <button class="action" onclick="document.getElementById('calendar-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
+  <h2>📅 Study Calendar</h2>
+  <p class="muted">Plan your revision and upcoming school activities.</p>
+
+  <label for="study-date">Choose a date</label>
+  <input type="date" id="study-date">
+
+  <label for="study-event">Activity</label>
+  <input type="text" id="study-event"
+         placeholder="e.g. Revise Biology">
+
+  <button class="action" type="button" onclick="addStudyEvent()">
+    + Add Activity
+  </button>
+
+  <div id="study-event-list"></div>
+
+  <button class="action secondary" type="button"
+    onclick="document.getElementById('calendar-section').hidden=true; document.getElementById('home-page').hidden=false;">
+    ← Home
+  </button>
 </section>
+  
 
 <section id="subjects-section" class="panel" hidden>
   <h2>📚 My Subjects</h2>
