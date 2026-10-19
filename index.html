@@ -1517,6 +1517,7 @@ const grade7Notes = {
   `
 };
 
+
 function loadNotesForGrade() {
   const gradeSelect = document.getElementById("notes-grade");
   const subjectList = document.getElementById("notes-subject-list");
@@ -1528,32 +1529,43 @@ function loadNotesForGrade() {
 
   if (!grade) return;
 
-  Object.values(groups).forEach(subjectGroup => {
-    Object.keys(subjectGroup).forEach(name => {
+  Object.entries(groups).forEach(([category, subjects]) => {
+    const heading = document.createElement("h3");
+    heading.textContent = category;
+    subjectList.appendChild(heading);
+
+    Object.values(subjects).forEach(name => {
       const button = document.createElement("button");
       button.type = "button";
-      button.textContent = name;
       button.className = "subject-button";
+      button.textContent = name;
 
       button.addEventListener("click", function () {
-        const readingPage = document.getElementById("notes-reading-page");
-        const title = document.getElementById("notes-reading-title");
-        const content = document.getElementById("notes-reading-content");
+        const readingPage =
+          document.getElementById("notes-reading-page");
+        const title =
+          document.getElementById("notes-reading-title");
+        const content =
+          document.getElementById("notes-content");
+        const notesSection =
+          document.getElementById("notes-section");
 
-        if (!readingPage || !title || !content) return;
+        if (!readingPage || !title || !content || !notesSection) return;
 
         title.textContent = grade + " — " + name + " Notes";
         content.textContent =
-          lessons[name] || "Notes for this subject are coming soon.";
+          typeof lessons !== "undefined" && lessons[name]
+            ? lessons[name]
+            : "Revision notes for this subject will be added soon.";
 
-        document.getElementById("notes-section").hidden = true;
+        notesSection.hidden = true;
         readingPage.hidden = false;
       });
 
       subjectList.appendChild(button);
     });
   });
-  }
+}
   
 function renderSubjects() {
   const list = document.getElementById("subjectList");
