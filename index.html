@@ -983,6 +983,84 @@ const groups = {
 }
 };
 
+const gradeSubjects = {
+  "Grade 7": [
+    "Integrated Science",
+    "Mathematics",
+    "English",
+    "Kiswahili",
+    "Social Studies",
+    "Agriculture",
+    "Pre-Technical Studies",
+    "Creative Arts",
+    "Physical Education",
+    "Religious Education"
+  ],
+  "Grade 8": [
+    "Integrated Science",
+    "Mathematics",
+    "English",
+    "Kiswahili",
+    "Social Studies",
+    "Agriculture",
+    "Pre-Technical Studies",
+    "Creative Arts",
+    "Physical Education",
+    "Religious Education"
+  ],
+  "Grade 9": [
+    "Integrated Science",
+    "Mathematics",
+    "English",
+    "Kiswahili",
+    "Social Studies",
+    "Agriculture",
+    "Pre-Technical Studies",
+    "Creative Arts",
+    "Physical Education",
+    "Religious Education"
+  ],
+  "Grade 10": [
+    "Mathematics",
+    "English",
+    "Kiswahili",
+    "Biology",
+    "Chemistry",
+    "Physics",
+    "Geography",
+    "History",
+    "Computer Studies",
+    "Business Studies",
+    "Agriculture"
+  ],
+  "Grade 11": [
+    "Mathematics",
+    "English",
+    "Kiswahili",
+    "Biology",
+    "Chemistry",
+    "Physics",
+    "Geography",
+    "History",
+    "Computer Studies",
+    "Business Studies",
+    "Agriculture"
+  ],
+  "Grade 12": [
+    "Mathematics",
+    "English",
+    "Kiswahili",
+    "Biology",
+    "Chemistry",
+    "Physics",
+    "Geography",
+    "History",
+    "Computer Studies",
+    "Business Studies",
+    "Agriculture"
+  ]
+};
+  
 const lessons = {
 "Mathematics":"Fractions: To add 1/2 + 1/4, write 1/2 as 2/4. Then 2/4 + 1/4 = 3/4.",
 "Biology":"Cells: The cell is the basic structural and functional unit of living organisms.",
@@ -1011,7 +1089,6 @@ const lessons = {
 "German":"German is a language used in Germany, Austria and other communities.",
 "Chinese":"Chinese includes several language varieties; Mandarin is widely used."
 };
-  
 
 function loadNotesForGrade() {
   const grade = document.getElementById("notes-grade").value;
@@ -1030,35 +1107,43 @@ function loadNotesForGrade() {
   heading.textContent = grade + " Subjects";
   container.appendChild(heading);
 
+  const emojiBySubject = {};
+
   Object.values(groups).forEach(subjects => {
     Object.entries(subjects).forEach(([emoji, name]) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "action secondary";
-      button.textContent = emoji + " " + name;
-
-      button.onclick = function () {
-        document.getElementById("notes-section").hidden = true;
-        document.getElementById("notes-reading-page").hidden = false;
-
-        document.getElementById("notes-reading-title").textContent =
-          grade + " — " + name + " Notes";
-
-        const content = document.getElementById("notes-content");
-        content.innerHTML = "";
-
-        const note = document.createElement("p");
-        note.textContent = lessons[name] ||
-          "Notes for " + grade + " " + name +
-          " are being prepared. Please check back later.";
-
-        content.appendChild(note);
-      };
-
-      container.appendChild(button);
+      emojiBySubject[name] = emoji;
     });
   });
-  }
+
+  const subjects = gradeSubjects[grade] || [];
+
+  subjects.forEach(name => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "action secondary";
+    button.textContent = (emojiBySubject[name] || "📘") + " " + name;
+
+    button.onclick = function () {
+      document.getElementById("notes-section").hidden = true;
+      document.getElementById("notes-reading-page").hidden = false;
+
+      document.getElementById("notes-reading-title").textContent =
+        grade + " — " + name + " Notes";
+
+      const content = document.getElementById("notes-content");
+      content.innerHTML = "";
+
+      const note = document.createElement("p");
+      note.textContent = lessons[name] ||
+        "Notes for " + grade + " " + name +
+        " are being prepared. Please check back later.";
+
+      content.appendChild(note);
+    };
+
+    container.appendChild(button);
+  });
+}
   
 function renderSubjects() {
   const list = document.getElementById("subjectList");
