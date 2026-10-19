@@ -211,6 +211,103 @@ footer{text-align:center;padding:25px;color:#617067;font-size:13px}
   <p>Learn today. Succeed tomorrow.</p>
 </header>
   
+<section id="home-page" class="panel">
+  <h2>Hello, Sir/Madam 👋</h2>
+  <p>Welcome to ElimuSmart, where you build your future.</p>
+
+  <div class="home-grid">
+    <button class="home-card" type="button"
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('notes-section').hidden=false;">
+      <span>📒</span>
+      <strong>Notes</strong>
+      <small>Read your study notes</small>
+    </button>
+
+    <button class="home-card" type="button"
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('exams-section').hidden=false;">
+      <span>📝</span>
+      <strong>Exams</strong>
+      <small>Practise exam questions</small>
+    </button>
+
+    <button class="home-card" type="button"
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('calendar-section').hidden=false;">
+      <span>📅</span>
+      <strong>Calendar</strong>
+      <small>Plan your study time</small>
+    </button>
+
+    <button class="home-card" type="button"
+      onclick="document.getElementById('home-page').hidden=true; document.getElementById('subjects-section').hidden=false;">
+      <span>📚</span>
+      <strong>My Subjects</strong>
+      <small>Explore your subjects</small>
+    </button>
+  </div>
+</section>
+
+<section id="notes-section" class="panel" hidden>
+  <h2>📒 Notes</h2>
+  <p>Your study notes will appear here.</p>
+  <button class="action" onclick="document.getElementById('notes-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
+</section>
+
+<section id="exams-section" class="panel" hidden>
+  <h2>📝 Exams</h2>
+  <p>Your practice exams will appear here.</p>
+  <button class="action" onclick="document.getElementById('exams-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
+</section>
+
+<section id="calendar-section" class="panel" hidden>
+  <h2>📅 Calendar</h2>
+  <p>Your study calendar will appear here.</p>
+  <button class="action" onclick="document.getElementById('calendar-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
+</section>
+
+<section id="subjects-section" class="panel" hidden>
+  <h2>📚 My Subjects</h2>
+  <p>Your subjects will appear here.</p>
+  <button class="action" onclick="document.getElementById('subjects-section').hidden=true; document.getElementById('home-page').hidden=false;">← Home</button>
+</section>
+
+<style>
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.home-card {
+  background: #ffffff;
+  color: #123c2c;
+  border: 1px solid #d8e5dc;
+  border-radius: 15px;
+  padding: 20px 10px;
+  min-height: 130px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.home-card span {
+  display: block;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.home-card strong,
+.home-card small {
+  display: block;
+}
+
+.home-card small {
+  color: #617067;
+  margin-top: 7px;
+  font-size: 12px;
+}
+</style>
+  
+  
 
 <main>
 <h2>Welcome, Student!</h2>
