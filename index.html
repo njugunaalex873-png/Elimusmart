@@ -2207,6 +2207,25 @@ window.openElimuMenuPage = function (page) {
   document.getElementById("language-message").textContent = "";
   }
 };
+    
+window.elimuSaveLanguage = function () {
+  const language = document.getElementById("elimu-language");
+  const message = document.getElementById("language-message");
+
+  if (!language || !message) return;
+
+  localStorage.setItem("elimuLanguage", language.value);
+
+  const messages = {
+    en: "Language preference saved.",
+    sw: "Lugha imehifadhiwa.",
+    fr: "Préférence linguistique enregistrée.",
+    de: "Spracheinstellung gespeichert."
+  };
+
+  message.textContent = messages[language.value] || messages.en;
+};
+    
   </script>
   
   <section id="change-password-section" class="panel" hidden>
