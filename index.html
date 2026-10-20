@@ -652,6 +652,24 @@ body {
   </button>
 </section>
 
+<section id="selected-subjects-page" class="panel" hidden>
+  <h2 id="selected-subjects-title">My Subjects</h2>
+
+  <p class="muted">
+    These are the subjects you selected for your grade.
+  </p>
+
+  <div id="selected-subjects-list"></div>
+
+  <button type="button" class="action secondary"
+    onclick="
+      document.getElementById('selected-subjects-page').hidden = true;
+      document.getElementById('notes-section').hidden = false;
+    ">
+    ← Back to Subject Selection
+  </button>
+</section>
+  
 <section id="exams-section" class="panel" hidden>
   <h2>📝 Exams</h2>
   <p>Select a KCSE past paper year to begin revision.</p>
@@ -4970,6 +4988,82 @@ function loadNotesForGrade() {
   heading.textContent = grade + " Subjects";
   subjectList.appendChild(heading);
 
+  // Grades 10–12: allow learners to select their subjects
+  if (["Grade 10", "Grade 11", "Grade 12"].includes(grade)) {
+    const saved = JSON.parse(
+      localStorage.getItem("elimuSelectedSubjects_" + grade) || "[]"
+    );
+
+    subjects.forEach(function(subject) {
+      const label = document.createElement("label");
+      label.style.display = "block";
+      label.style.margin = "10px 0";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = subject;
+      checkbox.checked = saved.includes(subject);
+      checkbox.className = "grade-subject-checkbox";
+
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(" " + subject));
+      subjectList.appendChild(label);
+    });
+
+    const applyButton = document.createElement("button");
+    applyButton.type = "button";
+    applyButton.className = "action";
+    applyButton.textContent = "Apply Subjects";
+
+    applyButton.onclick = function() {
+      const selected = Array.from(
+        subjectList.querySelectorAll(".grade-subject-checkbox:checked")
+      ).map(function(checkbox) {
+        return checkbox.value;
+      });
+
+      if (selected.length === 0) {
+        alert("Please select at least one subject.");
+        return;
+      }
+
+      localStorage.setItem(
+        "elimuSelectedSubjects_" + grade,
+        JSON.stringify(selected)
+      );
+
+      const title = document.getElementById("selected-subjects-title");
+      const list = document.getElementById("selected-subjects-list");
+      const notesSection = document.getElementById("notes-section");
+      const selectedPage = document.getElementById("selected-subjects-page");
+
+      if (!title || !list || !notesSection || !selectedPage) {
+        alert("The selected subjects page is missing from the HTML.");
+        return;
+      }
+
+      title.textContent = grade + " — My Subjects";
+      list.innerHTML = "";
+
+      selected.forEach(function(subject) {
+        const item = document.createElement("p");
+        item.textContent = "📘 " + subject;
+        list.appendChild(item);
+      });
+
+      notesSection.hidden = true;
+      selectedPage.hidden = false;
+      selectedPage.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    };
+
+    subjectList.appendChild(applyButton);
+    return;
+  }
+
+  // Grades 7–9: keep the existing subject buttons
   subjects.forEach(function(subject) {
     const button = document.createElement("button");
     button.type = "button";
@@ -4995,12 +5089,11 @@ function loadNotesForGrade() {
       const notesSection = document.getElementById("notes-section");
 
       if (!notesContent || !readingPage || !notesSection) {
-        alert("A notes page element could not be found. Please check the HTML IDs.");
+        alert("A notes page element could not be found.");
         return;
       }
 
       notesContent.innerHTML = notes;
-
       notesSection.hidden = true;
       readingPage.hidden = false;
 
@@ -5012,8 +5105,8 @@ function loadNotesForGrade() {
 
     subjectList.appendChild(button);
   });
-        }
-    
+      }
+          
 
 function renderNotesSubjects() {
   const container = document.getElementById("notes-subject-list");
