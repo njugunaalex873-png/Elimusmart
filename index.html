@@ -1518,52 +1518,54 @@ const grade7Notes = {
 };
 
 
+
 function loadNotesForGrade() {
-  const gradeSelect = document.getElementById("notes-grade");
+  const grade = document.getElementById("notes-grade").value;
   const subjectList = document.getElementById("notes-subject-list");
 
-  if (!gradeSelect || !subjectList) return;
-
-  const grade = gradeSelect.value;
   subjectList.innerHTML = "";
 
   if (!grade) return;
 
-  Object.entries(groups).forEach(([category, subjects]) => {
-    const heading = document.createElement("h3");
-    heading.textContent = category;
-    subjectList.appendChild(heading);
+  const subjects = gradeSubjects[grade] || [];
 
-    Object.values(subjects).forEach(name => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "subject-button";
-      button.textContent = name;
+  if (subjects.length === 0) {
+    subjectList.textContent = "No subjects available for this grade.";
+    return;
+  }
 
-      button.addEventListener("click", function () {
-        const readingPage =
-          document.getElementById("notes-reading-page");
-        const title =
-          document.getElementById("notes-reading-title");
-        const content =
-          document.getElementById("notes-content");
-        const notesSection =
-          document.getElementById("notes-section");
+  subjects.forEach(name => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "subject-button";
+    button.textContent = name;
 
-        if (!readingPage || !title || !content || !notesSection) return;
+    button.addEventListener("click", function () {
+      const readingPage =
+        document.getElementById("notes-reading-page");
+      const title =
+        document.getElementById("notes-reading-title");
+      const content =
+        document.getElementById("notes-content");
 
-        title.textContent = grade + " — " + name + " Notes";
+      if (!readingPage || !title || !content) return;
+
+      title.textContent = grade + " — " + name + " Notes";
+
+      const note = grade7Notes[name] || lessons[name];
+
+      if (note) {
+        content.innerHTML = note;
+      } else {
         content.textContent =
-          typeof lessons !== "undefined" && lessons[name]
-            ? lessons[name]
-            : "Revision notes for this subject will be added soon.";
+          "Revision notes for " + name + " will be added soon.";
+      }
 
-        notesSection.hidden = true;
-        readingPage.hidden = false;
-      });
-
-      subjectList.appendChild(button);
+      document.getElementById("notes-section").hidden = true;
+      readingPage.hidden = false;
     });
+
+    subjectList.appendChild(button);
   });
 }
   
