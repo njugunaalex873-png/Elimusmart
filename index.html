@@ -554,7 +554,54 @@ body {
     </button>
   </div>
 </section>
+  
+<section id="quizzes-section" class="panel" hidden>
+  <h2>📝 ElimuSmart Quiz Centre</h2>
+  <p>Grade 7 • Mathematics</p>
+  <p class="muted">Practise mathematics, check your answers and learn from explanations.</p>
 
+  <div id="math-quiz-start">
+    <h3>📘 Grade 7 Mathematics</h3>
+    <p>5 multiple-choice questions</p>
+    <p>Each question carries 1 mark.</p>
+    <button type="button" class="action"
+      onclick="startGrade7MathQuiz()">
+      Start Quiz →
+    </button>
+  </div>
+
+  <div id="math-quiz-area" hidden>
+    <p id="math-quiz-progress">Question 1 of 5</p>
+    <h3 id="math-quiz-question"></h3>
+    <div id="math-quiz-options"></div>
+    <div id="math-quiz-feedback" aria-live="polite"></div>
+
+    <button type="button" id="math-quiz-next"
+      class="action" onclick="nextGrade7MathQuestion()" hidden>
+      Next Question →
+    </button>
+
+    <button type="button" id="math-quiz-submit"
+      class="action" onclick="finishGrade7MathQuiz()" hidden>
+      Submit Quiz
+    </button>
+  </div>
+
+  <div id="math-quiz-result" hidden>
+    <h3>🏆 Your Results</h3>
+    <p id="math-quiz-score"></p>
+    <div id="math-quiz-review"></div>
+    <button type="button" class="action"
+      onclick="startGrade7MathQuiz()">
+      Retake Quiz
+    </button>
+  </div>
+
+  <button type="button" class="action secondary"
+    onclick="elimuNavigate('home', null)">
+    ← Home
+  </button>
+</section>
 <!-- Half-screen menu drawer -->
 <div id="elimu-menu-overlay" hidden
   onclick="toggleElimuMenu(false)">
@@ -5496,6 +5543,237 @@ showQuestion();
 
 renderSubjects();
 showQuestion();
+  
+const grade7MathQuestions = [
+  {
+    question: "What is 125 + 278?",
+    options: ["393", "403", "413", "423"],
+    answer: 1,
+    explanation: "125 + 278 = 403."
+  },
+  {
+    question: "Calculate 3/4 + 1/4.",
+    options: ["1/2", "2/4", "1", "4/8"],
+    answer: 2,
+    explanation: "The denominators are equal, so add the numerators: 3/4 + 1/4 = 4/4 = 1."
+  },
+  {
+    question: "What is the perimeter of a rectangle of length 8 cm and width 3 cm?",
+    options: ["11 cm", "22 cm", "24 cm", "16 cm"],
+    answer: 1,
+    explanation: "Perimeter = 2 × (length + width) = 2 × (8 + 3) = 22 cm."
+  },
+  {
+    question: "Solve: x + 7 = 15.",
+    options: ["6", "7", "8", "9"],
+    answer: 2,
+    explanation: "Subtract 7 from both sides: x = 15 − 7 = 8."
+  },
+  {
+    question: "Which of these numbers is a factor of 24?",
+    options: ["5", "7", "9", "6"],
+    answer: 3,
+    explanation: "24 ÷ 6 = 4, a whole number. Therefore, 6 is a factor of 24."
+  }
+];
+
+let grade7MathCurrent = 0;
+let grade7MathAnswers = [];
+let grade7MathLocked = false;
+
+function startGrade7MathQuiz() {
+  grade7MathCurrent = 0;
+  grade7MathAnswers = [];
+  grade7MathLocked = false;
+
+  document.getElementById("math-quiz-start").hidden = true;
+  document.getElementById("math-quiz-result").hidden = true;
+  document.getElementById("math-quiz-area").hidden = false;
+
+  renderGrade7MathQuestion();
+}
+
+function renderGrade7MathQuestion() {
+  const q = grade7MathQuestions[grade7MathCurrent];
+
+  document.getElementById("math-quiz-progress").textContent =
+    "Question " + (grade7MathCurrent + 1) +
+    " of " + grade7MathQuestions.length;
+
+  document.getElementById("math-quiz-question").textContent = q.question;
+  document.getElementById("math-quiz-feedback").textContent = "";
+  document.getElementById("math-quiz-next").hidden = true;
+  document.getElementById("math-quiz-submit").hidden = true;
+
+  const optionsBox = document.getElementById("math-quiz-options");
+  optionsBox.innerHTML = "";
+
+  q.options.forEach(function(option, index) {
+    const label = document.createElement("label");
+    label.style.display = "block";
+    label.style.padding = "10px";
+    label.style.margin = "8px 0";
+    label.style.border = "1px solid #888";
+    label.style.borderRadius = "8px";
+
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "grade7MathAnswer";
+    radio.value = index;
+    radio.style.marginRight = "10px";
+
+    radio.addEventListener("change", function() {
+      if (grade7MathLocked) return;
+
+      grade7MathAnswers[grade7MathCurrent] = index;
+      grade7MathLocked = true;
+
+      const correct = index === q.answer;
+      document.getElementById("math-quiz-feedback").textContent =
+        (correct ? "✅ Correct! " : "❌ Not quite. ") +
+        q.explanation;
+
+      optionsBox.querySelectorAll("input").forEach(function(input) {
+        input.disabled = true;
+      });
+
+      if (grade7MathCurrent < grade7MathQuestions.length - 1) {
+        document.getElementById("math-quiz-next").hidden = false;
+      } else {
+        document.getElementById("math-quiz-submit").hidden = false;
+      }
+    });
+
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode(option));
+    optionsBox.appendChild(label);
+  });
+}
+
+function nextGrade7MathQuestion() {
+  if (!grade7MathLocked) {
+    alert("Please choose an answer first.");
+    return;
+  }
+
+  grade7MathCurrent++;
+  grade7MathLocked = false;
+  renderGrade7MathQuestion();
+}
+
+function finishGrade7MathQuiz() {
+  if (!grade7MathLocked) {
+    alert("Please choose an answer first.");
+    return;
+  }
+
+  let score = 0;
+
+  grade7MathQuestions.forEach(function(q, index) {
+    if (grade7MathAnswers[index] === q.answer) score++;
+  });
+
+  const percent = Math.round(
+    score / grade7MathQuestions.length * 100
+  );
+
+  const attempt = {
+    grade: "Grade 7",
+    subject: "Mathematics",
+    score: score,
+    total: grade7MathQuestions.length,
+    percentage: percent,
+    date: new Date().toISOString()
+  };
+
+  let history = [];
+
+  try {
+    history = JSON.parse(
+      localStorage.getItem("elimuQuizResults") || "[]"
+    );
+
+    if (!Array.isArray(history)) history = [];
+  } catch (error) {
+    history = [];
+  }
+
+  history.push(attempt);
+
+  try {
+    localStorage.setItem("elimuQuizResults", JSON.stringify(history));
+  } catch (error) {
+    alert("Your score is calculated, but this browser could not save it.");
+  }
+
+  document.getElementById("math-quiz-area").hidden = true;
+  document.getElementById("math-quiz-result").hidden = false;
+
+  document.getElementById("math-quiz-score").textContent =
+    "You scored " + score + " out of " +
+    grade7MathQuestions.length + " (" + percent + "%).";
+
+  const review = document.getElementById("math-quiz-review");
+  review.innerHTML = "";
+
+  grade7MathQuestions.forEach(function(q, index) {
+    const item = document.createElement("div");
+    item.style.padding = "10px";
+    item.style.margin = "8px 0";
+    item.style.border = "1px solid #888";
+    item.style.borderRadius = "8px";
+
+    const chosen = grade7MathAnswers[index];
+    const result = document.createElement("p");
+
+    result.textContent =
+      (chosen === q.answer ? "✅ " : "❌ ") +
+      q.question +
+      " Your answer: " +
+      (chosen === undefined ? "Not answered" : q.options[chosen]) +
+      ". Correct answer: " + q.options[q.answer] + ".";
+
+    const explanation = document.createElement("p");
+    explanation.textContent = "Explanation: " + q.explanation;
+
+    item.appendChild(result);
+    item.appendChild(explanation);
+    review.appendChild(item);
+  });
+
+  updateElimuMathProgress();
+}
+
+function updateElimuMathProgress() {
+  let history = [];
+
+  try {
+    history = JSON.parse(
+      localStorage.getItem("elimuQuizResults") || "[]"
+    );
+
+    if (!Array.isArray(history)) history = [];
+  } catch (error) {
+    history = [];
+  }
+
+  const completed = history.length;
+  const average = completed
+    ? Math.round(history.reduce(function(sum, item) {
+        return sum + Number(item.percentage || 0);
+      }, 0) / completed)
+    : 0;
+
+  const quizCount = document.getElementById("progress-quizzes");
+  const averageScore = document.getElementById("progress-average");
+
+  if (quizCount) quizCount.textContent = completed;
+  if (averageScore) averageScore.textContent =
+    completed ? average + "%" : "—";
+}
+
+document.addEventListener("DOMContentLoaded", updateElimuMathProgress);
+  
 </script>
 <script src="./grade9-content.js"></script>
 <style>
