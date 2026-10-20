@@ -4212,7 +4212,44 @@ Practise writing greetings, personal introductions, simple sentences and short m
 `
 };
 
+const grade8Notes = {
+  "Mathematics": `
+<u><strong>GRADE 8 MATHEMATICS</strong></u>
 
+<strong>1. Numbers</strong>
+
+<strong>1.1 Whole Numbers</strong>
+- Identify and read whole numbers.
+- Compare and arrange whole numbers in order.
+- Perform calculations involving whole numbers.
+
+<strong>1.2 Fractions</strong>
+- Identify proper and improper fractions.
+- Simplify fractions to their lowest terms.
+- Add, subtract, multiply and divide fractions.
+
+<strong>2. Algebra</strong>
+
+<strong>2.1 Algebraic Expressions</strong>
+- Identify variables, constants and coefficients.
+- Simplify algebraic expressions by collecting like terms.
+- Substitute values into algebraic expressions.
+
+<strong>3. Geometry</strong>
+
+<strong>3.1 Angles</strong>
+- Identify different types of angles.
+- Measure and construct angles using a protractor.
+- Solve problems involving angles.
+
+<strong>4. Revision Questions</strong>
+1. Simplify 3/4 + 1/8.
+2. Evaluate 2x + 5 when x = 4.
+3. Name three types of angles.
+
+<u><strong>END OF GRADE 8 MATHEMATICS NOTES</strong></u>
+`
+};
 
 function loadNotesForGrade() {
   const gradeSelect = document.getElementById("notes-grade");
@@ -4243,14 +4280,36 @@ function loadNotesForGrade() {
     button.textContent = "📘 " + subject;
 
     button.onclick = function() {
-      alert("You selected: " + subject);
+      let notes = "";
+
+      if (grade === "Grade 7" && typeof grade7Notes !== "undefined") {
+        notes = grade7Notes[subject] || "";
+      } else if (grade === "Grade 8" && typeof grade8Notes !== "undefined") {
+        notes = grade8Notes[subject] || "";
+      }
+
+      if (!notes) {
+        alert("Revision notes for " + subject + " will be added soon.");
+        return;
+      }
+
+      const notesContent = document.getElementById("notes-content");
+
+      if (notesContent) {
+        notesContent.innerHTML = notes;
+        notesContent.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      } else {
+        alert("Notes display area not found. Please add an element with id=\"notes-content\".");
+      }
     };
 
     subjectList.appendChild(button);
   });
-  }
+}
   
-
 function renderSubjects() {
   const list = document.getElementById("subjectList");
   const searchBox = document.getElementById("search");
