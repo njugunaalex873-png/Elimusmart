@@ -4947,62 +4947,73 @@ function renderSubjects() {
   });
 }
 
+
 function loadNotesForGrade() {
   const gradeSelect = document.getElementById("notes-grade");
-  const container = document.getElementById("notes-subject-list");
+  const subjectList = document.getElementById("notes-subject-list");
 
-  if (!gradeSelect || !container) return;
+  if (!gradeSelect || !subjectList) return;
 
   const grade = gradeSelect.value;
-  container.innerHTML = "";
+  subjectList.innerHTML = "";
 
   if (!grade) return;
 
   const subjects = gradeSubjects[grade] || [];
 
   if (subjects.length === 0) {
-    container.textContent = "No subjects available for this grade.";
+    subjectList.textContent = "No subjects found for this grade.";
     return;
   }
 
   const heading = document.createElement("h3");
   heading.textContent = grade + " Subjects";
-  container.appendChild(heading);
+  subjectList.appendChild(heading);
 
-  subjects.forEach(function(name) {
+  subjects.forEach(function(subject) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "action secondary";
-    button.textContent = "📘 " + name;
+    button.textContent = "📘 " + subject;
 
     button.onclick = function() {
-      const notesPage = document.getElementById("notes-section");
-      const readingPage = document.getElementById("notes-reading-page");
-      const title = document.getElementById("notes-reading-title");
-      const content = document.getElementById("notes-content");
+      let notes = "";
 
-      if (!notesPage || !readingPage || !title || !content) return;
-
-      title.textContent = grade + " — " + name + " Notes";
-
-      content.innerHTML = "";
-      const note = document.createElement("div");
-
-      if (grade === "Grade 7" && grade7Notes[name]) {
-        note.innerHTML = grade7Notes[name];
-      } else {
-        note.textContent = lessons[name] ||
-          "Revision notes for " + name + " will be added soon.";
+      if (grade === "Grade 7" && typeof grade7Notes !== "undefined") {
+        notes = grade7Notes[subject] || "";
+      } else if (grade === "Grade 8" && typeof grade8Notes !== "undefined") {
+        notes = grade8Notes[subject] || "";
       }
 
-      content.appendChild(note);
-      notesPage.hidden = true;
+      if (!notes) {
+        alert("No notes found for " + subject + " in " + grade + ".");
+        return;
+      }
+
+      const notesContent = document.getElementById("notes-content");
+      const readingPage = document.getElementById("notes-reading-page");
+      const notesSection = document.getElementById("notes-section");
+
+      if (!notesContent || !readingPage || !notesSection) {
+        alert("A notes page element could not be found. Please check the HTML IDs.");
+        return;
+      }
+
+      notesContent.innerHTML = notes;
+
+      notesSection.hidden = true;
       readingPage.hidden = false;
+
+      readingPage.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     };
 
-    container.appendChild(button);
+    subjectList.appendChild(button);
   });
-  }
+        }
+    
 
 function renderNotesSubjects() {
   const container = document.getElementById("notes-subject-list");
