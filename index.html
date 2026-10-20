@@ -5667,21 +5667,52 @@ body:not(.dashboard-active) #elimu-ai-panel {
     }
   });
 })();
-  window.elimuNavigate = function (page, button) {
-  const home = document.getElementById("home-page");
-  const quizzes = document.getElementById("quizzes-section");
-  const progress = document.getElementById("progress-section");
+  
+function elimuNavigate(page, button) {
+  const pageIds = [
+    "home-page",
+    "quizzes-section",
+    "progress-section",
+    "notes-section",
+    "notes-reading-page",
+    "selected-subjects-page",
+    "selected-subjects-notes-page",
+    "exams-section",
+    "profile-section"
+  ];
 
-  if (home) home.hidden = page !== "home";
-  if (quizzes) quizzes.hidden = page !== "quizzes";
-  if (progress) progress.hidden = page !== "progress";
+  pageIds.forEach(function(id) {
+    const section = document.getElementById(id);
+    if (section) section.hidden = true;
+  });
 
-  document.querySelectorAll(".bottom-nav-item").forEach(item => {
+  const targetId = {
+    home: "home-page",
+    quizzes: "quizzes-section",
+    progress: "progress-section",
+    notes: "notes-section",
+    exams: "exams-section",
+    profile: "profile-section"
+  }[page];
+
+  const target = targetId
+    ? document.getElementById(targetId)
+    : null;
+
+  if (target) {
+    target.hidden = false;
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  document.querySelectorAll(".bottom-nav-item").forEach(function(item) {
     item.classList.remove("active");
   });
 
   if (button) button.classList.add("active");
-};
+  }
   </script>
   
 <script type="module">
