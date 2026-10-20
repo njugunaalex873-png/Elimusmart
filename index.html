@@ -1520,11 +1520,12 @@ const grade7Notes = {
 
 
 function loadNotesForGrade() {
-  alert("Function is running");
-alert("Grade 8 subjects: " + gradeSubjects["Grade 8"].length);
-  const grade = document.getElementById("notes-grade").value;
+  const gradeSelect = document.getElementById("notes-grade");
   const subjectList = document.getElementById("notes-subject-list");
 
+  if (!gradeSelect || !subjectList) return;
+
+  const grade = gradeSelect.value;
   subjectList.innerHTML = "";
 
   if (!grade) return;
@@ -1532,45 +1533,29 @@ alert("Grade 8 subjects: " + gradeSubjects["Grade 8"].length);
   const subjects = gradeSubjects[grade] || [];
 
   if (subjects.length === 0) {
-    subjectList.textContent = "No subjects available for this grade.";
+    subjectList.textContent = "No subjects found for this grade.";
     return;
   }
 
-  subjects.forEach(name => {
+  const heading = document.createElement("h3");
+  heading.textContent = grade + " Subjects";
+  subjectList.appendChild(heading);
+
+  subjects.forEach(function(subject) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "subject-button";
-    button.textContent = name;
+    button.className = "action secondary";
+    button.textContent = "📘 " + subject;
 
-    button.addEventListener("click", function () {
-      const readingPage =
-        document.getElementById("notes-reading-page");
-      const title =
-        document.getElementById("notes-reading-title");
-      const content =
-        document.getElementById("notes-content");
-
-      if (!readingPage || !title || !content) return;
-
-      title.textContent = grade + " — " + name + " Notes";
-
-      const note = grade7Notes[name] || lessons[name];
-
-      if (note) {
-        content.innerHTML = note;
-      } else {
-        content.textContent =
-          "Revision notes for " + name + " will be added soon.";
-      }
-
-      document.getElementById("notes-section").hidden = true;
-      readingPage.hidden = false;
-    });
+    button.onclick = function() {
+      alert("You selected: " + subject);
+    };
 
     subjectList.appendChild(button);
   });
-}
+  }
   
+
 function renderSubjects() {
   const list = document.getElementById("subjectList");
   const searchBox = document.getElementById("search");
@@ -1582,17 +1567,44 @@ function renderSubjects() {
 
   Object.entries(groups).forEach(([group, subjects]) => {
     const matches = Object.entries(subjects).filter(
+      ([emoji, name]) => name.toLowerCase().includes(search)
+    );
+
+    if (matches.length === 0) return;
+
+    const heading = document.createElement("h3");
+    heading.className = "group-title";
+    heading.textContent = group;
+    list.appendChild(heading);
+
+    matches.forEach(([emoji, name]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "action secondary";
+      button.textContent = emoji + " " + name;
+      button.onclick = function() {
+        openSubject(name);
+      };
+      list.appendChild(button);
+    });
+  });
+}
 
 function loadNotesForGrade() {
-  const grade = document.getElementById("notes-grade").value;
+  const gradeSelect = document.getElementById("notes-grade");
   const container = document.getElementById("notes-subject-list");
 
-  if (!container) return;
+  if (!gradeSelect || !container) return;
 
+  const grade = gradeSelect.value;
   container.innerHTML = "";
 
-  if (!grade) {
-    container.textContent = "Please select your grade first.";
+  if (!grade) return;
+
+  const subjects = gradeSubjects[grade] || [];
+
+  if (subjects.length === 0) {
+    container.textContent = "No subjects available for this grade.";
     return;
   }
 
@@ -1600,55 +1612,40 @@ function loadNotesForGrade() {
   heading.textContent = grade + " Subjects";
   container.appendChild(heading);
 
-  const emojiBySubject = {};
-
-  Object.values(groups).forEach(subjects => {
-    Object.entries(subjects).forEach(([emoji, name]) => {
-      emojiBySubject[name] = emoji;
-    });
-  });
-
-  const subjects = gradeSubjects[grade] || [];
-
-  if (subjects.length === 0) {
-    container.textContent =
-      grade + " subjects are not configured yet.";
-    return;
-  }
-
-  subjects.forEach(name => {
+  subjects.forEach(function(name) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "action secondary";
-    button.textContent =
-      (emojiBySubject[name] || "📘") + " " + name;
+    button.textContent = "📘 " + name;
 
-    button.onclick = function () {
-      document.getElementById("notes-section").hidden = true;
-      document.getElementById("notes-reading-page").hidden = false;
-
-      document.getElementById("notes-reading-title").textContent =
-        grade + " — " + name + " Notes";
-
+    button.onclick = function() {
+      const notesPage = document.getElementById("notes-section");
+      const readingPage = document.getElementById("notes-reading-page");
+      const title = document.getElementById("notes-reading-title");
       const content = document.getElementById("notes-content");
-      content.innerHTML = "";
 
+      if (!notesPage || !readingPage || !title || !content) return;
+
+      title.textContent = grade + " — " + name + " Notes";
+
+      content.innerHTML = "";
       const note = document.createElement("div");
-      note.innerHTML =
-        (grade === "Grade 7" && grade7Notes[name])
-          ? grade7Notes[name]
-          : (lessons[name] ||
-             "Notes for " + grade + " " + name +
-             " are being prepared. Please check back later.");
+
+      if (grade === "Grade 7" && grade7Notes[name]) {
+        note.innerHTML = grade7Notes[name];
+      } else {
+        note.textContent = lessons[name] ||
+          "Revision notes for " + name + " will be added soon.";
+      }
 
       content.appendChild(note);
+      notesPage.hidden = true;
+      readingPage.hidden = false;
     };
 
     container.appendChild(button);
   });
   }
-    
-  
 
 function renderNotesSubjects() {
   const container = document.getElementById("notes-subject-list");
