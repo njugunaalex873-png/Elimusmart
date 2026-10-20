@@ -690,6 +690,44 @@ body {
   </button>
 </section>
   
+<section id="progress-section" class="panel" hidden>
+  <h2>📊 My Learning Progress</h2>
+  <p class="muted">Track your learning activity and achievements.</p>
+
+  <div class="home-grid">
+    <div class="home-card">
+      <h3>📚 Subjects Studied</h3>
+      <p id="progress-subjects">0</p>
+    </div>
+
+    <div class="home-card">
+      <h3>📝 Quizzes Completed</h3>
+      <p id="progress-quizzes">0</p>
+    </div>
+
+    <div class="home-card">
+      <h3>📈 Average Score</h3>
+      <p id="progress-average">—</p>
+    </div>
+
+    <div class="home-card">
+      <h3>🔥 Study Streak</h3>
+      <p id="progress-streak">0 days</p>
+    </div>
+  </div>
+
+  <h3>🎯 Weekly Study Goal</h3>
+  <label for="weekly-study-goal">Study sessions per week</label>
+  <input id="weekly-study-goal" type="number" min="1" max="100" value="5">
+
+  <p id="weekly-study-summary">0 of 5 sessions completed</p>
+  <progress id="weekly-study-progress" value="0" max="5" style="width:100%"></progress>
+
+  <h3>🕒 Recent Learning Activity</h3>
+  <div id="progress-recent-activity">
+    <p class="muted">Your learning activity will appear here.</p>
+  </div>
+</section>
   
 <section id="exams-section" class="panel" hidden>
   <h2>📝 Exams</h2>
