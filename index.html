@@ -5772,6 +5772,78 @@ function updateElimuMathProgress() {
     completed ? average + "%" : "—";
 }
 
+function updateStudyProgress() {
+  const subjectsElement = document.getElementById("progress-subjects");
+  const streakElement = document.getElementById("progress-streak");
+
+  let subjects = [];
+
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("elimuSelectedSubjects") || "[]"
+    );
+
+    if (Array.isArray(saved)) {
+      subjects = saved;
+    }
+  } catch (error) {
+    subjects = [];
+  }
+
+  if (subjectsElement) {
+    subjectsElement.textContent = new Set(subjects).size;
+  }
+
+  let dates = [];
+
+  try {
+    dates = JSON.parse(
+      localStorage.getItem("elimuStudyDates") || "[]"
+    );
+
+    if (!Array.isArray(dates)) dates = [];
+  } catch (error) {
+    dates = [];
+  }
+
+  const uniqueDates = [...new Set(dates)].sort().reverse();
+  const today = new Date();
+  const todayKey =
+    today.getFullYear() + "-" +
+    String(today.getMonth() + 1).padStart(2, "0") + "-" +
+    String(today.getDate()).padStart(2, "0");
+
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const yesterdayKey =
+    yesterday.getFullYear() + "-" +
+    String(yesterday.getMonth() + 1).padStart(2, "0") + "-" +
+    String(yesterday.getDate()).padStart(2, "0");
+
+  let streak = 0;
+  let checkDate = uniqueDates.includes(todayKey)
+    ? today
+    : uniqueDates.includes(yesterdayKey)
+      ? yesterday
+      : null;
+
+  while (checkDate) {
+    const key =
+      checkDate.getFullYear() + "-" +
+      String(checkDate.getMonth() + 1).padStart(2, "0") + "-" +
+      String(checkDate.getDate()).padStart(2, "0");
+
+    if (!uniqueDates.includes(key)) break;
+
+    streak++;
+    checkDate.setDate(checkDate.getDate() - 1);
+  }
+
+  if (streakElement) {
+    streakElement.textContent = streak + " days";
+  }
+  }
 document.addEventListener("DOMContentLoaded", updateElimuMathProgress);
   
 </script>
@@ -6027,7 +6099,16 @@ function elimuNavigate(page, button) {
     item.classList.remove("active");
   });
 
-  if (button) button.classList.add("active");
+    if (button) button.classList.add("active");
+
+  if (page === "progress") {
+    if (typeof updateElimuMathProgress === "function") {
+      updateElimuMathProgress();
+    }
+    if (typeof updateStudyProgress === "function") {
+      updateStudyProgress();
+    }
+  }
   }
   </script>
   
