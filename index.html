@@ -5226,6 +5226,33 @@ function loadNotesForGrade() {
         "elimuSelectedSubjects_" + grade,
         JSON.stringify(selected)
       );
+      const studyToday = new Date();
+const studyDateKey =
+  studyToday.getFullYear() + "-" +
+  String(studyToday.getMonth() + 1).padStart(2, "0") + "-" +
+  String(studyToday.getDate()).padStart(2, "0");
+
+let studyDates = [];
+
+try {
+  studyDates = JSON.parse(
+    localStorage.getItem("elimuStudyDates") || "[]"
+  );
+
+  if (!Array.isArray(studyDates)) studyDates = [];
+} catch (error) {
+  studyDates = [];
+}
+
+if (!studyDates.includes(studyDateKey)) {
+  studyDates.push(studyDateKey);
+  localStorage.setItem(
+    "elimuStudyDates",
+    JSON.stringify(studyDates)
+  );
+}
+
+updateStudyProgress();
 
       const title = document.getElementById("selected-subjects-title");
       const list = document.getElementById("selected-subjects-list");
@@ -5772,28 +5799,45 @@ function updateElimuMathProgress() {
     completed ? average + "%" : "—";
 }
 
+
 function updateStudyProgress() {
-  const subjectsElement = document.getElementById("progress-subjects");
-  const streakElement = document.getElementById("progress-streak");
+  const subjectsElement =
+    document.getElementById("progress-subjects");
+  const streakElement =
+    document.getElementById("progress-streak");
 
-  let subjects = [];
+  const allSubjects = new Set();
 
-  try {
-    const saved = JSON.parse(
-      localStorage.getItem("elimuSelectedSubjects") || "[]"
-    );
+  // Read subjects saved for every grade.
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
 
-    if (Array.isArray(saved)) {
-      subjects = saved;
+    if (key && key.startsWith("elimuSelectedSubjects_")) {
+      try {
+        const saved = JSON.parse(
+          localStorage.getItem(key) || "[]"
+        );
+
+        if (Array.isArray(saved)) {
+          saved.forEach(function(subject) {
+            allSubjects.add(
+              String(subject).trim()
+            );
+          });
+        }
+      } catch (error) {
+        // Ignore invalid saved data.
+      }
     }
-  } catch (error) {
-    subjects = [];
   }
+
+  allSubjects.delete("");
 
   if (subjectsElement) {
-    subjectsElement.textContent = new Set(subjects).size;
+    subjectsElement.textContent = allSubjects.size;
   }
 
+  // Calculate the current study streak.
   let dates = [];
 
   try {
@@ -5806,44 +5850,40 @@ function updateStudyProgress() {
     dates = [];
   }
 
-  const uniqueDates = [...new Set(dates)].sort().reverse();
+  const dateSet = new Set(dates);
   const today = new Date();
-  const todayKey =
-    today.getFullYear() + "-" +
-    String(today.getMonth() + 1).padStart(2, "0") + "-" +
-    String(today.getDate()).padStart(2, "0");
+
+  function dateKey(date) {
+    return date.getFullYear() + "-" +
+      String(date.getMonth() + 1).padStart(2, "0") + "-" +
+      String(date.getDate()).padStart(2, "0");
+  }
 
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
 
-  const yesterdayKey =
-    yesterday.getFullYear() + "-" +
-    String(yesterday.getMonth() + 1).padStart(2, "0") + "-" +
-    String(yesterday.getDate()).padStart(2, "0");
+  let currentDate;
+
+  if (dateSet.has(dateKey(today))) {
+    currentDate = new Date(today);
+  } else if (dateSet.has(dateKey(yesterday))) {
+    currentDate = new Date(yesterday);
+  } else {
+    currentDate = null;
+  }
 
   let streak = 0;
-  let checkDate = uniqueDates.includes(todayKey)
-    ? today
-    : uniqueDates.includes(yesterdayKey)
-      ? yesterday
-      : null;
 
-  while (checkDate) {
-    const key =
-      checkDate.getFullYear() + "-" +
-      String(checkDate.getMonth() + 1).padStart(2, "0") + "-" +
-      String(checkDate.getDate()).padStart(2, "0");
-
-    if (!uniqueDates.includes(key)) break;
-
+  while (currentDate && dateSet.has(dateKey(currentDate))) {
     streak++;
-    checkDate.setDate(checkDate.getDate() - 1);
+    currentDate.setDate(currentDate.getDate() - 1);
   }
 
   if (streakElement) {
     streakElement.textContent = streak + " days";
   }
   }
+  
 document.addEventListener("DOMContentLoaded", updateElimuMathProgress);
   
 </script>
