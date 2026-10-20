@@ -40,6 +40,7 @@ jobs:
       
       - name: Generate Android launcher icons
         run: |
+          
           node -e "require('sharp')('assets/icon.svg').resize(1024,1024).png().toFile('assets/icon.png').then(()=>console.log('Created assets/icon.png')).catch(e=>{console.error(e);process.exit(1)})"
           npx capacitor-assets generate --android
           
