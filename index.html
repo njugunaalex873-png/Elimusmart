@@ -5768,8 +5768,41 @@ function finishGrade7MathQuiz() {
     review.appendChild(item);
   });
 
+  
   updateElimuMathProgress();
-}
+
+  // Record today as a study day after completing a quiz
+  const studyToday = new Date();
+  const studyDateKey =
+    studyToday.getFullYear() + "-" +
+    String(studyToday.getMonth() + 1).padStart(2, "0") + "-" +
+    String(studyToday.getDate()).padStart(2, "0");
+
+  let studyDates = [];
+
+  try {
+    studyDates = JSON.parse(
+      localStorage.getItem("elimuStudyDates") || "[]"
+    );
+
+    if (!Array.isArray(studyDates)) studyDates = [];
+  } catch (error) {
+    studyDates = [];
+  }
+
+  if (!studyDates.includes(studyDateKey)) {
+    studyDates.push(studyDateKey);
+
+    localStorage.setItem(
+      "elimuStudyDates",
+      JSON.stringify(studyDates)
+    );
+  }
+
+  if (typeof updateStudyProgress === "function") {
+    updateStudyProgress();
+  }
+  }
 
 function updateElimuMathProgress() {
   let history = [];
