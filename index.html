@@ -660,7 +660,11 @@ body {
   </p>
 
   <div id="selected-subjects-list"></div>
-
+  
+<button type="button" class="action" onclick="openSelectedSubjectsNotes()">
+  Next →
+</button>
+  
   <button type="button" class="action secondary"
     onclick="
       document.getElementById('selected-subjects-page').hidden = true;
@@ -669,6 +673,23 @@ body {
     ← Back to Subject Selection
   </button>
 </section>
+  
+<section id="selected-subjects-notes-page" class="panel" hidden>
+  <h2 id="selected-subjects-notes-title">Choose a Subject</h2>
+
+  <p class="muted">Tap a subject to open its revision notes.</p>
+
+  <div id="selected-subjects-notes-list"></div>
+
+  <button type="button" class="action secondary"
+    onclick="
+      document.getElementById('selected-subjects-notes-page').hidden = true;
+      document.getElementById('selected-subjects-page').hidden = false;
+    ">
+    ← Back
+  </button>
+</section>
+  
   
 <section id="exams-section" class="panel" hidden>
   <h2>📝 Exams</h2>
@@ -4930,6 +4951,95 @@ function loadNotesForGrade() {
     subjectList.appendChild(button);
   });
 }
+  
+function openSelectedSubjectsNotes() {
+  const grade = document.getElementById("notes-grade").value;
+  const saved = JSON.parse(
+    localStorage.getItem("elimuSelectedSubjects_" + grade) || "[]"
+  );
+
+  if (saved.length === 0) {
+    alert("Please select and apply your subjects first.");
+    return;
+  }
+
+  const list = document.getElementById("selected-subjects-notes-list");
+  const title = document.getElementById("selected-subjects-notes-title");
+
+  list.innerHTML = "";
+  title.textContent = grade + " — Revision Subjects";
+
+  saved.forEach(function(subject) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "action secondary";
+    button.style.display = "block";
+    button.style.margin = "8px 0";
+    button.textContent = "📘 " + subject;
+
+    button.onclick = function() {
+      let notes = "";
+
+      if (grade === "Grade 7" &&
+          typeof grade7Notes !== "undefined") {
+        notes = grade7Notes[subject] || "";
+      } else if (grade === "Grade 8" &&
+                 typeof grade8Notes !== "undefined") {
+        notes = grade8Notes[subject] || "";
+      }
+
+      if (!notes && typeof lessons !== "undefined") {
+        notes = lessons[subject] || "";
+      }
+
+      const notesContent = document.getElementById("notes-content");
+      const readingPage = document.getElementById("notes-reading-page");
+      const notesSection = document.getElementById("notes-section");
+      const selectedPage = document.getElementById("selected-subjects-notes-page");
+      const readingTitle = document.getElementById("notes-reading-title");
+
+      if (!notesContent || !readingPage || !selectedPage) {
+        alert("The notes page could not be found.");
+        return;
+      }
+
+      notesContent.innerHTML = "";
+
+      if (readingTitle) {
+        readingTitle.textContent = subject + " Revision Notes";
+      }
+
+      if (notes) {
+        notesContent.innerHTML = notes;
+      } else {
+        const message = document.createElement("p");
+        message.textContent =
+          "Revision notes for " + subject +
+          " are being prepared. Please check back later.";
+        notesContent.appendChild(message);
+      }
+
+      selectedPage.hidden = true;
+      if (notesSection) notesSection.hidden = true;
+      readingPage.hidden = false;
+
+      readingPage.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    };
+
+    list.appendChild(button);
+  });
+
+  document.getElementById("selected-subjects-page").hidden = true;
+  document.getElementById("selected-subjects-notes-page").hidden = false;
+
+  document.getElementById("selected-subjects-notes-page").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+  }  
   
 function renderSubjects() {
   const list = document.getElementById("subjectList");
