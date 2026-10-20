@@ -34,12 +34,29 @@ jobs:
       - name: Prepare website files
         run: npm run build
 
+      
       - name: Add Android platform
         run: npx cap add android
 
+      - name: Generate Android launcher icons
+        run: |
+          npm install --no-save sharp
+          node -e "const sharp = require('sharp'); sharp('assets/elimusmart-icon.svg').resize(1024,1024).png().toFile('/tmp/elimusmart-icon.png').then(() => console.log('Icon PNG created'))"
+          mkdir -p android/app/src/main/res/mipmap-mdpi android/app/src/main/res/mipmap-hdpi android/app/src/main/res/mipmap-xhdpi android/app/src/main/res/mipmap-xxhdpi android/app/src/main/res/mipmap-xxxhdpi
+          for size in 48 72 96 144 192; do
+            case "$size" in
+              48) folder=mipmap-mdpi ;;
+              72) folder=mipmap-hdpi ;;
+              96) folder=mipmap-xhdpi ;;
+              144) folder=mipmap-xxhdpi ;;
+              192) folder=mipmap-xxxhdpi ;;
+            esac
+            npx --yes sharp-cli -i /tmp/elimusmart-icon.png -o "android/app/src/main/res/$folder/ic_launcher.png" resize "$size" "$size"
+          done
+
       - name: Sync website into Android app
         run: npx cap sync android
-
+        
       - name: Build debug APK
         run: |
           cd android
